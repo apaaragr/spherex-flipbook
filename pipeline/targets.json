@@ -1,0 +1,10 @@
+{
+  "barnard":  {"label": "Barnard's Star", "kind": "moving", "ra": 269.44850252543836, "dec": 4.739420051112412, "epoch_jyear": 2016.0,
+               "pmra": -801.5509783684709, "pmdec": 10362.394206546573, "parallax": 546.975939730948, "ref": "Gaia DR3 4472832130942575872"},
+  "wise0855": {"label": "WISE 0855−0714", "kind": "moving", "ra": 133.7831722, "dec": -7.2442516, "epoch_mjd": 57338.571,
+               "pmra": -8021.2, "pmdec": 1035.7, "parallax": 0, "ref": "CatWISE2020 J085507.96-071439.3"},
+  "epsindb":  {"label": "Epsilon Indi B", "kind": "moving", "ra": 331.0767776, "dec": -56.7939530, "epoch_mjd": 57493.372,
+               "pmra": 3966.0, "pmdec": -2536.0, "parallax": 0, "ref": "CatWISE2020 position + published eps Ind system motion"},
+  "rwaur":    {"label": "RW Aurigae", "kind": "variable", "ra": 76.9564, "dec": 30.4014, "epoch_jyear": 2016.0, "pmra": 0, "pmdec": 0, "parallax": 0, "ref": "approximate (variable star)"},
+  "rdra":     {"label": "R Draconis", "kind": "variable", "ra": 248.1675, "dec": 66.7550, "epoch_jyear": 2016.0, "pmra": 0, "pmdec": 0, "parallax": 0, "ref": "approximate (variable star)"}
+}

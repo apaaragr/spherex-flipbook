@@ -1,0 +1,255 @@
+{
+ "target": "barnard",
+ "label": "Barnard's Star",
+ "kind": "moving",
+ "reference": "Gaia DR3 4472832130942575872",
+ "grid": {
+  "n": 59,
+  "pixel_arcsec": 6.15,
+  "ra": 269.44626826226863,
+  "dec": 4.768204479744119,
+  "fov_deg": 0.1
+ },
+ "built": "2026-11-15 14:24 IST",
+ "spherex_versions": [
+  "7.0.5"
+ ],
+ "n_images_total": 358,
+ "n_images_used": 351,
+ "n_failed": 0,
+ "passes": [
+  {
+   "index": 0,
+   "mjd": 60914.277763,
+   "date": "2025-08-27",
+   "start": "2025-08-15",
+   "end": "2025-09-05",
+   "n_images": 108,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    28.95477936288472,
+    28.41541538001292
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p0_ALL.png",
+    "D1": "p0_D1.png",
+    "D2": "p0_D2.png",
+    "D3": "p0_D3.png",
+    "D4": "p0_D4.png",
+    "D5": "p0_D5.png",
+    "D6": "p0_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p0_D1_diff.png",
+    "D2": "p0_D2_diff.png",
+    "D3": "p0_D3_diff.png",
+    "D4": "p0_D4_diff.png",
+    "D5": "p0_D5_diff.png",
+    "D6": "p0_D6_diff.png",
+    "ALL": "p0_ALL_diff.png"
+   }
+  },
+  {
+   "index": 1,
+   "mjd": 60948.994217,
+   "date": "2025-09-30",
+   "start": "2025-09-30",
+   "end": "2025-10-01",
+   "n_images": 10,
+   "detectors": [
+    "D1",
+    "D4"
+   ],
+   "full": false,
+   "predicted_px": [
+    28.96716787666236,
+    28.575566476422463
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p1_ALL.png",
+    "D1": "p1_D1.png",
+    "D4": "p1_D4.png"
+   },
+   "diff_frames": {
+    "D1": "p1_D1_diff.png",
+    "D4": "p1_D4_diff.png",
+    "ALL": "p1_ALL_diff.png"
+   }
+  },
+  {
+   "index": 2,
+   "mjd": 61116.680151,
+   "date": "2026-03-17",
+   "start": "2026-03-11",
+   "end": "2026-04-10",
+   "n_images": 113,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.027006346153044,
+    29.349121454484344
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p2_ALL.png",
+    "D1": "p2_D1.png",
+    "D2": "p2_D2.png",
+    "D3": "p2_D3.png",
+    "D4": "p2_D4.png",
+    "D5": "p2_D5.png",
+    "D6": "p2_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p2_D1_diff.png",
+    "D2": "p2_D2_diff.png",
+    "D3": "p2_D3_diff.png",
+    "D4": "p2_D4_diff.png",
+    "D5": "p2_D5_diff.png",
+    "D6": "p2_D6_diff.png",
+    "ALL": "p2_ALL_diff.png"
+   }
+  },
+  {
+   "index": 3,
+   "mjd": 61164.743119499995,
+   "date": "2026-05-04",
+   "start": "2026-05-04",
+   "end": "2026-05-05",
+   "n_images": 8,
+   "detectors": [
+    "D3",
+    "D6"
+   ],
+   "full": false,
+   "predicted_px": [
+    29.044157542789964,
+    29.570841589802964
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p3_ALL.png",
+    "D3": "p3_D3.png",
+    "D6": "p3_D6.png"
+   },
+   "diff_frames": {
+    "D3": "p3_D3_diff.png",
+    "D6": "p3_D6_diff.png",
+    "ALL": "p3_ALL_diff.png"
+   }
+  },
+  {
+   "index": 4,
+   "mjd": 61273.649318,
+   "date": "2026-08-21",
+   "start": "2026-08-16",
+   "end": "2026-09-02",
+   "n_images": 110,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.083020552400743,
+    30.073238706594033
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p4_ALL.png",
+    "D1": "p4_D1.png",
+    "D2": "p4_D2.png",
+    "D3": "p4_D3.png",
+    "D4": "p4_D4.png",
+    "D5": "p4_D5.png",
+    "D6": "p4_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p4_D1_diff.png",
+    "D2": "p4_D2_diff.png",
+    "D3": "p4_D3_diff.png",
+    "D4": "p4_D4_diff.png",
+    "D5": "p4_D5_diff.png",
+    "D6": "p4_D6_diff.png",
+    "ALL": "p4_ALL_diff.png"
+   }
+  },
+  {
+   "index": 5,
+   "mjd": 61305.628021,
+   "date": "2026-09-22",
+   "start": "2026-09-22",
+   "end": "2026-09-22",
+   "n_images": 2,
+   "detectors": [
+    "D2",
+    "D5"
+   ],
+   "full": false,
+   "predicted_px": [
+    29.09443210332906,
+    30.220760227410537
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p5_ALL.png",
+    "D2": "p5_D2.png",
+    "D5": "p5_D5.png"
+   },
+   "diff_frames": {
+    "D2": "p5_D2_diff.png",
+    "D5": "p5_D5_diff.png",
+    "ALL": "p5_ALL_diff.png"
+   }
+  }
+ ],
+ "diff_base": "2025-08-27",
+ "diff": {
+  "file": "diff_ALL.png",
+  "from": "2025-08-27",
+  "to": "2026-08-21"
+ },
+ "check": {
+  "from": "2025-08-27",
+  "to": "2026-08-21",
+  "years": 0.98,
+  "measured_arcsec": [
+   -1.58,
+   10.06
+  ],
+  "predicted_arcsec": [
+   -0.79,
+   10.2
+  ],
+  "measured_total_arcsec": 10.18,
+  "predicted_total_arcsec": 10.23,
+  "error_arcsec": 0.8,
+  "field_star_shift_arcsec_median": 0.08,
+  "n_field_stars": 8,
+  "signal_to_noise": 122.9
+ },
+ "spectrum": {
+  "file": "spectrum.json",
+  "n_points": 351
+ }
+}
