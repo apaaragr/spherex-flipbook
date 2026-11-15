@@ -3,6 +3,8 @@
  "label": "Barnard's Star",
  "kind": "moving",
  "reference": "Gaia DR3 4472832130942575872",
+ "blurb": "Six light-years away, Barnard's Star is the fastest-moving star across our sky: about 10\u2033 a year, a full Moon's width every 180 years.",
+ "look_for": "Watch the star under the red cross step north between passes. Difference mode shows it as a red (now) / blue (before) pair.",
  "grid": {
   "n": 59,
   "pixel_arcsec": 6.15,
@@ -10,7 +12,7 @@
   "dec": 4.768204479744119,
   "fov_deg": 0.1
  },
- "built": "2026-11-15 14:24 IST",
+ "built": "2026-11-15 21:49 IST",
  "spherex_versions": [
   "7.0.5"
  ],
@@ -247,6 +249,44 @@
   "field_star_shift_arcsec_median": 0.08,
   "n_field_stars": 8,
   "signal_to_noise": 122.9
+ },
+ "variability": {
+  "from": "2025-08-27",
+  "to": "2026-08-21",
+  "per_detector": {
+   "D1": {
+    "target_ratio": 0.924,
+    "field_ratio_median": 0.984,
+    "field_ratio_scatter": 0.035
+   },
+   "D2": {
+    "target_ratio": 1.39,
+    "field_ratio_median": 1.033,
+    "field_ratio_scatter": 0.024
+   },
+   "D3": {
+    "target_ratio": 1.497,
+    "field_ratio_median": 0.986,
+    "field_ratio_scatter": 0.05
+   },
+   "D4": {
+    "target_ratio": 0.86,
+    "field_ratio_median": 1.013,
+    "field_ratio_scatter": 0.016
+   },
+   "D5": {
+    "target_ratio": 0.998,
+    "field_ratio_median": 0.956,
+    "field_ratio_scatter": 0.023
+   },
+   "D6": {
+    "target_ratio": 0.998,
+    "field_ratio_median": 1.014,
+    "field_ratio_scatter": 0.016
+   }
+  },
+  "median_change": 1.014,
+  "median_field_scatter": 0.024
  },
  "spectrum": {
   "file": "spectrum.json",

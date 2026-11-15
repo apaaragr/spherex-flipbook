@@ -48,4 +48,7 @@ Reionization and Ices Explorer (SPHEREx), which is a joint project of the Jet Pr
 Institute of Technology, and is funded by the National Aeronautics and Space Administration. Data via the NASA/IPAC
 Infrared Science Archive (IRSA). Reference astrometry from ESA Gaia DR3 and CatWISE2020. Viewer design inspired by WiseView.
 
+## Use of AI
+Code, analysis and text for this project were developed with help from Claude (Anthropic), an AI assistant. All images are real SPHEREx data; all results were checked against independent catalogues (Gaia DR3, CatWISE2020).
+
 Licence: Apache-2.0.

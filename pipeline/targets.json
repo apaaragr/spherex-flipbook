@@ -1,10 +1,67 @@
 {
-  "barnard":  {"label": "Barnard's Star", "kind": "moving", "ra": 269.44850252543836, "dec": 4.739420051112412, "epoch_jyear": 2016.0,
-               "pmra": -801.5509783684709, "pmdec": 10362.394206546573, "parallax": 546.975939730948, "ref": "Gaia DR3 4472832130942575872"},
-  "wise0855": {"label": "WISE 0855−0714", "kind": "moving", "ra": 133.7831722, "dec": -7.2442516, "epoch_mjd": 57338.571,
-               "pmra": -8021.2, "pmdec": 1035.7, "parallax": 0, "ref": "CatWISE2020 J085507.96-071439.3"},
-  "epsindb":  {"label": "Epsilon Indi B", "kind": "moving", "ra": 331.0767776, "dec": -56.7939530, "epoch_mjd": 57493.372,
-               "pmra": 3966.0, "pmdec": -2536.0, "parallax": 0, "ref": "CatWISE2020 position + published eps Ind system motion"},
-  "rwaur":    {"label": "RW Aurigae", "kind": "variable", "ra": 76.9564, "dec": 30.4014, "epoch_jyear": 2016.0, "pmra": 0, "pmdec": 0, "parallax": 0, "ref": "approximate (variable star)"},
-  "rdra":     {"label": "R Draconis", "kind": "variable", "ra": 248.1675, "dec": 66.7550, "epoch_jyear": 2016.0, "pmra": 0, "pmdec": 0, "parallax": 0, "ref": "approximate (variable star)"}
+ "barnard": {
+  "label": "Barnard's Star",
+  "kind": "moving",
+  "ra": 269.44850252543836,
+  "dec": 4.739420051112412,
+  "epoch_jyear": 2016.0,
+  "pmra": -801.5509783684709,
+  "pmdec": 10362.394206546573,
+  "parallax": 546.975939730948,
+  "ref": "Gaia DR3 4472832130942575872",
+  "blurb": "Six light-years away, Barnard's Star is the fastest-moving star across our sky: about 10″ a year, a full Moon's width every 180 years.",
+  "look_for": "Watch the star under the red cross step north between passes. Difference mode shows it as a red (now) / blue (before) pair."
+ },
+ "wise0855": {
+  "label": "WISE 0855−0714",
+  "kind": "moving",
+  "ra": 133.7831722,
+  "dec": -7.2442516,
+  "epoch_mjd": 57338.571,
+  "pmra": -8021.2,
+  "pmdec": 1035.7,
+  "parallax": 0,
+  "ref": "CatWISE2020 J085507.96-071439.3",
+  "blurb": "The coldest brown dwarf known (about −25 °C), 7.4 light-years away. It was discovered in 2014 by spotting its motion in NASA WISE images.",
+  "look_for": "It is almost invisible below 3 µm: choose detector D5 or D6 and look for a faint dot near the cross, moving west about 8″ a year."
+ },
+ "epsindb": {
+  "label": "Epsilon Indi B",
+  "kind": "moving",
+  "ra": 331.0767776,
+  "dec": -56.793953,
+  "epoch_mjd": 57493.372,
+  "pmra": 3966.0,
+  "pmdec": -2536.0,
+  "parallax": 0,
+  "ref": "CatWISE2020 position + published eps Ind system motion",
+  "blurb": "A pair of brown dwarfs orbiting the star Epsilon Indi, 12 light-years away. They drift about 4.7″ a year, under one SPHEREx pixel, so the motion is subtle.",
+  "look_for": "Use Difference mode and look for a faint red–blue pair at the cross."
+ },
+ "rwaur": {
+  "label": "RW Aurigae",
+  "kind": "variable",
+  "ra": 76.9564,
+  "dec": 30.4014,
+  "epoch_jyear": 2016.0,
+  "pmra": 0,
+  "pmdec": 0,
+  "parallax": 0,
+  "ref": "approximate (variable star)",
+  "blurb": "A young T Tauri star system still wrapped in a dusty disk. It brightens and dims unpredictably as clumps of dust pass in front of it.",
+  "look_for": "Look for the star's brightness changing between passes, not its position. The check card compares it with nearby steady stars."
+ },
+ "rdra": {
+  "label": "R Draconis",
+  "kind": "variable",
+  "ra": 248.1675,
+  "dec": 66.755,
+  "epoch_jyear": 2016.0,
+  "pmra": 0,
+  "pmdec": 0,
+  "parallax": 0,
+  "ref": "approximate (variable star)",
+  "blurb": "A Mira-type pulsating red giant that swells and shrinks over a roughly 245-day cycle, changing brightness strongly in the infrared.",
+  "look_for": "Blink between passes and watch the star pulse. The check card compares it with nearby steady stars."
+ }
 }

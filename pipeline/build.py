@@ -159,12 +159,14 @@ def robust_z(a):
 
 
 # ---------- step 7: rendering ----------
-def save_png(arr, path, vmin, vmax, cmap="gray", asinh=True):
+def save_png(arr, path, vmin, vmax, cover, cmap="gray", asinh=True):
     a = np.clip((arr - vmin) / (vmax - vmin), 0, 1)
     if asinh:
         a = np.arcsinh(a * 10) / np.arcsinh(10)
-    a = np.where(np.isfinite(arr), a, 1.0)  # unrecoverable (saturated, all-NaN) pixels render white
-    plt.imsave(path, a, cmap=cmap, vmin=0, vmax=1, origin="lower")
+    a = np.where(np.isfinite(arr), a, 1.0)  # covered but unrecoverable (saturated core) -> brightest
+    rgba = plt.get_cmap(cmap)(a)
+    rgba[..., 3] = cover.astype(float)       # never observed -> transparent (viewer shows hatching)
+    plt.imsave(path, rgba, origin="lower")
 
 
 def save_diff(arr, path):
@@ -247,6 +249,7 @@ def main():
             spectrum.append({"pass": pi, "detector": d, "mjd": float(mjd[i]), **r["phot"]})
 
     manifest = {"target": key, "label": t["label"], "kind": t["kind"], "reference": t["ref"],
+                "blurb": t.get("blurb", ""), "look_for": t.get("look_for", ""),
                 "grid": {"n": N, "pixel_arcsec": PIX, "ra": centre.ra.deg, "dec": centre.dec.deg, "fov_deg": args.fov},
                 "built": time.strftime("%Y-%m-%d %H:%M %Z"), "spherex_versions": sorted(versions),
                 "n_images_total": len(inv), "n_images_used": sum(len(v) for v in per.values()), "n_failed": failed,
@@ -257,7 +260,7 @@ def main():
         if not dets:
             continue
         mids = float(np.median(mjd[idx]))
-        frames, zs, nimg = {}, [], 0
+        frames, covers, zs, nimg = {}, {}, [], 0
         for d in dets:
             rs = per[(pi, d)]
             nimg += len(rs)
@@ -265,8 +268,10 @@ def main():
             raw = np.nanmedian([r["unmasked"] for r in rs], 0)
             st = np.where(np.isfinite(masked), masked, raw)  # fill flagged-only pixels (e.g. saturated cores) for display
             frames[d] = st
+            covers[d] = np.any([np.isfinite(r["sat"]) for r in rs], 0)
             zs.append(robust_z(st))
         frames["ALL"] = np.nanmean(zs, 0)
+        covers["ALL"] = np.any([covers[d] for d in dets], 0)
         x, y = (float(v) for v in gw.world_to_pixel(position_at(ref, mids)))
         sat_frac = float(np.mean([np.nanmean([r["sat"] for r in per[(pi, d)]], 0)[int(round(y)), int(round(x))] for d in dets]))
         manifest["passes"].append({"index": pi, "mjd": mids, "date": Time(mids, format="mjd").iso[:10],
@@ -274,32 +279,34 @@ def main():
                                    "end": Time(mjd[idx].max(), format="mjd").iso[:10],
                                    "n_images": nimg, "detectors": dets, "full": len(dets) >= 4,
                                    "predicted_px": [x, y], "saturated_fraction_at_target": round(sat_frac, 2), "frames": {}})
-        stacks_all.append((manifest["passes"][-1], frames))
+        stacks_all.append((manifest["passes"][-1], frames, covers))
 
     # shared brightness scale per detector (from the first pass that has it) so frames are comparable
-    for d in sorted({d for _, fr in stacks_all for d in fr}):
-        first = next(fr[d] for _, fr in stacks_all if d in fr)
+    for d in sorted({d for _, fr, _ in stacks_all for d in fr}):
+        first = next(fr[d] for _, fr, _ in stacks_all if d in fr)
         lo, hi = np.nanpercentile(first, [1, 99.8])
-        for p, fr in stacks_all:
+        for p, fr, cv in stacks_all:
             if d in fr:
                 name = f"p{p['index']}_{d}.png"
-                save_png(fr[d], out_dir / name, lo, hi)
+                save_png(fr[d], out_dir / name, lo, hi, cv[d])
                 p["frames"][d] = name
     # difference frames: every pass minus the first full pass, per detector (shared symmetric scale per detector)
-    base = next(((p, fr) for p, fr in stacks_all if p["full"]), stacks_all[0])
+    base = next(((p, fr, cv) for p, fr, cv in stacks_all if p["full"]), stacks_all[0])
     for d in base[1]:
-        diffs = [(p, fr[d] - base[1][d]) for p, fr in stacks_all if d in fr]
-        lim = max(np.nanpercentile(np.abs(df), 99.7) for p, df in diffs if p is not base[0]) if len(diffs) > 1 else 1
-        for p, df in diffs:
+        diffs = [(p, fr[d] - base[1][d], cv[d] & base[2][d]) for p, fr, cv in stacks_all if d in fr]
+        lim = max(np.nanpercentile(np.abs(df), 99.7) for p, df, _ in diffs if p is not base[0]) if len(diffs) > 1 else 1
+        for p, df, both in diffs:
             name = f"p{p['index']}_{d}_diff.png"
-            plt.imsave(out_dir / name, np.nan_to_num(df), cmap="RdBu_r", vmin=-lim, vmax=lim, origin="lower")
+            rgba = plt.get_cmap("RdBu_r")(np.clip((np.nan_to_num(df) + lim) / (2 * lim), 0, 1))
+            rgba[..., 3] = both.astype(float)
+            plt.imsave(out_dir / name, rgba, origin="lower")
             p.setdefault("diff_frames", {})[d] = name
     manifest["diff_base"] = base[0]["date"]
     np.savez_compressed(ROOT / f"data/cache/{key}_stacks.npz",
-                        **{f"p{p['index']}_{d}": fr[d] for p, fr in stacks_all for d in fr})
+                        **{f"p{p['index']}_{d}": fr[d] for p, fr, _ in stacks_all for d in fr})
 
     # validation: target shift first->last full pass vs reference; field-star noise floor
-    full = [(p, fr) for p, fr in stacks_all if p["full"]]
+    full = [(p, fr) for p, fr, _ in stacks_all if p["full"]]
     if len(full) >= 2 and t["kind"] == "moving":
         (pa, fa), (pb, fb) = full[0], full[-1]
         save_diff(fb["ALL"] - fa["ALL"], out_dir / "diff_ALL.png")
@@ -326,6 +333,35 @@ def main():
                 check["signal_to_noise"] = round(check["measured_total_arcsec"] / max(np.median(shifts), 0.05), 1)
         manifest["check"] = check
         log("check:", json.dumps(check))
+
+    # brightness change first -> last full pass, per detector, with field stars as the control
+    if len(full) >= 2:
+        (pa, fa), (pb, fb) = full[0], full[-1]
+
+        def apflux(img, x, y, r=2):
+            yy, xx = np.mgrid[:img.shape[0], :img.shape[1]]
+            d = np.hypot(xx - x, yy - y)
+            sky = np.nanmedian(img[(d >= 4) & (d <= 7)])
+            return float(np.nansum(img[d <= r] - sky))
+
+        per_det = {}
+        for d in sorted(set(fa) & set(fb) - {"ALL"}):
+            ta, tb = apflux(fa[d], *pa["predicted_px"]), apflux(fb[d], *pb["predicted_px"])
+            ratios = []
+            for (x, y) in field_stars(fa[d], pa["predicted_px"]):
+                f1, f2 = apflux(fa[d], x, y), apflux(fb[d], x, y)
+                if f1 > 0 and f2 > 0:
+                    ratios.append(f2 / f1)
+            if ta > 0 and tb > 0 and ratios:
+                med = float(np.median(ratios))
+                per_det[d] = {"target_ratio": round(tb / ta, 3), "field_ratio_median": round(med, 3),
+                              "field_ratio_scatter": round(float(1.4826 * np.median(np.abs(np.array(ratios) - med))), 3)}
+        if per_det:
+            rel = [v["target_ratio"] / v["field_ratio_median"] for v in per_det.values()]
+            manifest["variability"] = {"from": pa["date"], "to": pb["date"], "per_detector": per_det,
+                                       "median_change": round(float(np.median(rel)), 3),
+                                       "median_field_scatter": round(float(np.median([v["field_ratio_scatter"] for v in per_det.values()])), 3)}
+            log("variability:", json.dumps(manifest["variability"]))
 
     json.dump(spectrum, open(out_dir / "spectrum.json", "w"))
     manifest["spectrum"] = {"file": "spectrum.json", "n_points": len(spectrum)}

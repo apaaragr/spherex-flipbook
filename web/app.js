@@ -115,13 +115,16 @@ async function draw() {
   if (im) ctx.drawImage(im, 0, 0, n * z, n * z);
   ctx.restore();
   if (S.overlay && S.m.kind === "moving") drawOverlay(ctx, ps, p, n, z);
+  $("olegend").querySelectorAll("span")[0].style.display = $("olegend").querySelectorAll("span")[1].style.display = S.overlay && S.m.kind === "moving" ? "" : "none";
   // loop-reset cue (dashed border, as in WiseView) so a hop back isn't mistaken for motion
   cv.classList.toggle("reset", S.frame === 0 && ps.length > 1 && S.playing);
   $("scalebar").querySelector("span").style.width = (60 / S.m.grid.pixel_arcsec) * z + "px";
   // legend + caption
   $("legend").innerHTML = ps.map((q, i) => `<button type="button" class="${i === S.frame ? "cur" : ""} ${S.mode === "diff" && q.date === (S.m.passes.find((x) => x.full) || {}).date ? "base" : ""}" data-i="${i}" title="${q.start} → ${q.end}">${q.date.slice(0, 7)}</button>`).join("");
   const dets = p.detectors.join(", ");
-  $("caption").innerHTML = `<b>Pass ${S.frame + 1}/${ps.length}</b> · ${p.start} → ${p.end} · ${p.n_images} images · detectors ${dets}${S.mode === "diff" ? ` · minus ${S.m.diff_base}` : ""}`;
+  const prev = S.frame > 0 ? ps[S.frame - 1] : null;
+  const gap = prev ? ` · <span class="gap">+${Math.round((p.mjd - prev.mjd) / 30.44)} months</span>` : "";
+  $("caption").innerHTML = `<b>Pass ${S.frame + 1}/${ps.length}</b>${gap} · ${p.start} → ${p.end} · ${p.n_images} images · detectors ${dets}${S.mode === "diff" ? ` · minus ${S.m.diff_base}` : ""}`;
   renderAboutPass(p);
 }
 function toCanvas(px, n, z) { return [(px[0] + 0.5) * z, (n - 1 - px[1] + 0.5) * z]; }
@@ -158,10 +161,26 @@ function dirWords(e, n) {
 }
 function renderPanels() {
   const m = S.m, c = m.check, el = $("check");
+  $("objName").textContent = m.label;
+  $("objBlurb").textContent = m.blurb || "";
+  $("guide").innerHTML = `<b>What to look for:</b> ${m.look_for || "anything that hops or changes brightness between passes."}`;
+  $("checkTitle").textContent = m.kind === "moving" ? "Does it really move?" : "Does it really change?";
   if (m.kind === "field") {
     el.innerHTML = `<p class="note">A custom field: no catalogue target here. Blink or Difference mode shows anything that moved or changed between passes.</p>`;
   } else if (m.kind !== "moving") {
-    el.innerHTML = `<p class="note">${m.label} is a <b>variable star</b>: it changes brightness, not position. Use Blink or Difference mode, and compare the passes in the spectrum below.</p>`;
+    const v = m.variability;
+    if (!v) {
+      el.innerHTML = `<p class="note">${m.label} is a <b>variable star</b>: it changes brightness, not position. Needs two full passes to measure the change.</p>`;
+    } else {
+      const ch = v.median_change, pct = Math.abs(ch - 1) * 100, noise = v.median_field_scatter * 100;
+      const real = pct > 3 * Math.max(noise, 1);
+      const rows = Object.entries(v.per_detector).map(([d, r]) => `<span>${d}</span><span>×${(r.target_ratio / r.field_ratio_median).toFixed(2)} <small style="color:var(--muted)">(stars ±${(r.field_ratio_scatter * 100).toFixed(0)}%)</small></span>`).join("");
+      el.innerHTML = `
+      <p class="verdict ${real ? "good" : "warn"}">${real ? "Yes" : "Not clearly"}: it ${ch >= 1 ? "brightened" : "faded"} ${ch >= 1 ? "×" + ch.toFixed(2) : "to ×" + ch.toFixed(2)} (${pct.toFixed(0)}%)</p>
+      <div class="kv"><span>Between</span><span>${v.from} → ${v.to}</span>${rows}
+        <span>Steady stars changed</span><span>±${noise.toFixed(1)}% (typical)</span></div>
+      <p class="note">Brightness ratio of the star, last pass ÷ first pass, per detector, divided by the same ratio for nearby steady stars.</p>`;
+    }
   } else if (!c || c.measured_total_arcsec == null) {
     el.innerHTML = `<p class="empty">Needs at least two full passes to measure motion.</p>`;
   } else {
@@ -265,7 +284,12 @@ function goCoord() {
   for (const [k, t] of Object.entries(S.index)) { const d = angSepDeg(c, t); if (!best || d < best.d) best = { k, d }; }
   const fov = S.m ? S.m.grid.fov_deg : 0.1;
   if (best && best.d < fov / 2) { msg.textContent = `Inside the ${S.index[best.k].label} field.`; msg.className = "hint"; loadTarget(best.k); return; }
-  msg.innerHTML = `${fmtRA(c.ra)} ${fmtDec(c.dec)} isn't pre-built yet. Build it with<br><code>python -m pipeline.build --ra ${c.ra.toFixed(5)} --dec ${c.dec.toFixed(5)}</code>`;
+  const ra = c.ra.toFixed(5), dec = c.dec.toFixed(5);
+  msg.innerHTML = `${fmtRA(c.ra)} ${fmtDec(c.dec)} isn't in the showcase yet. Look at it now in
+    <a target="_blank" rel="noopener" href="https://www.legacysurvey.org/viewer?ra=${ra}&dec=${dec}&layer=unwise-neo7&zoom=13">unWISE</a>
+    <a target="_blank" rel="noopener" href="http://byw.tools/wiseview#ra=${ra}&dec=${dec}&size=360">WiseView</a>
+    <a target="_blank" rel="noopener" href="https://simbad.cds.unistra.fr/simbad/sim-coo?Coord=${ra}+${dec}&Radius=2&Radius.unit=arcmin">SIMBAD</a>
+    or <a target="_blank" rel="noopener" href="https://github.com/apaaragr/spherex-flipbook#run-it">build it yourself</a>.`;
   msg.className = "hint err";
 }
 

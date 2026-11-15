@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>SPHEREx Flipbook: demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+@page { size: 1280px 720px; margin: 0; }
+:root { --bg:#050510; --surface:#0e0e16; --text:#f0f4ff; --muted:#8b8da3; --cyan:#22d3ee; --blue:#3b82f6; --violet:#8b5cf6; --good:#34d399; --pred:#ff5d73; --hair:rgba(255,255,255,.1); }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.slide { width: 1280px; height: 720px; padding: 56px 72px; position: relative; overflow: hidden; page-break-after: always; break-after: page;
+  background: radial-gradient(900px 500px at 85% -10%, rgba(59,130,246,.16), transparent 60%), radial-gradient(700px 400px at 0% 100%, rgba(139,92,246,.12), transparent 60%), var(--bg); }
+h1, h2, .big { font-family: "Space Grotesk", sans-serif; margin: 0; }
+h1 { font-size: 72px; line-height: 1.02; letter-spacing: -.02em; }
+h2 { font-size: 40px; letter-spacing: -.01em; margin-bottom: 26px; }
+.kicker { font-size: 15px; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); font-weight: 600; margin-bottom: 18px; }
+.sub { font-size: 24px; color: #cfd3e6; margin-top: 18px; max-width: 900px; }
+.grad { background: linear-gradient(90deg, var(--cyan), var(--blue), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.foot { position: absolute; left: 72px; right: 72px; bottom: 30px; display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+ul { margin: 0; padding-left: 22px; font-size: 21px; line-height: 1.5; color: #dfe3f3; } li { margin-bottom: 10px; } li b { color: var(--text); }
+.shot { width: 100%; border-radius: 14px; border: 1px solid var(--hair); box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 40px rgba(34,211,238,.08); display: block; }
+.stat { font-family: "Space Grotesk", sans-serif; font-size: 64px; font-weight: 700; line-height: 1; }
+.statlbl { color: var(--muted); font-size: 16px; margin-top: 6px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 26px; }
+.card { background: var(--surface); border: 1px solid var(--hair); border-radius: 14px; padding: 20px; }
+.steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 10px; }
+.step { background: var(--surface); border: 1px solid var(--hair); border-radius: 14px; padding: 20px 16px; min-height: 250px; position: relative; }
+.step .n { font-family: "Space Grotesk"; font-size: 15px; color: var(--cyan); font-weight: 700; letter-spacing: .1em; }
+.step h3 { font-family: "Space Grotesk"; font-size: 22px; margin: 8px 0 10px; }
+.step p { font-size: 15px; color: #cfd3e6; margin: 0; line-height: 1.45; }
+.step:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 46%; color: var(--cyan); font-size: 20px; }
+.tgrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.tile { background: var(--surface); border: 1px solid var(--hair); border-radius: 14px; padding: 12px; }
+.tile img { width: 100%; aspect-ratio: 1; image-rendering: pixelated; border-radius: 8px; display: block; background: repeating-linear-gradient(45deg,#1b1d2a 0 6px,#11121b 6px 12px); }
+.tile .t { font-family: "Space Grotesk"; font-weight: 600; font-size: 17px; margin: 10px 0 4px; }
+.tile .r { font-size: 14px; color: #cfd3e6; line-height: 1.4; }
+.ok { color: var(--good); } .warn { color: #fbbf24; }
+.quote { font-size: 30px; font-family: "Space Grotesk"; line-height: 1.3; color: #dfe3f3; max-width: 1000px; }
+</style></head><body>
+
+<section class="slide">
+  <div class="kicker">NASA Space Apps Challenge 2026 · Planet X and SPHEREx</div>
+  <h1>SPHEREx <span class="grad">Flipbook</span></h1>
+  <p class="sub">Watch the infrared sky change, six months at a time, and catch the stars, brown dwarfs and asteroids that move.</p>
+  <div class="stats" style="max-width:1000px">
+    <div class="card"><div class="stat grad">5</div><div class="statlbl">challenge test targets built</div></div>
+    <div class="card"><div class="stat grad">1,400+</div><div class="statlbl">SPHEREx images cleaned, aligned &amp; stacked</div></div>
+    <div class="card"><div class="stat grad">0.13 px</div><div class="statlbl">match to Gaia on Barnard's Star</div></div>
+  </div>
+  <div class="foot"><span>Team Orbital_Nexus</span><span>apaaragr.github.io/spherex-flipbook</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">The problem</div>
+  <h2>Pluto was found by blinking two photos of the sky.</h2>
+  <div class="cols">
+    <ul>
+      <li>Comparing images taken at different times is still how most <b>comets and nearby brown dwarfs</b> are found, mostly by volunteers.</li>
+      <li>Since 2025, NASA's <b>SPHEREx</b> maps the <b>whole sky every six months</b> in <b>102 infrared colours</b>: over a billion objects.</li>
+      <li>That is far too much for any one person to sift, and there was <b>no simple time-lapse viewer</b> for it.</li>
+    </ul>
+    <div class="card"><p class="quote">“Create a public-facing web tool to display images of the sky from SPHEREx, making it easy for anyone to quickly see how they change over time.”</p><p style="color:var(--muted);margin:14px 0 0">NASA challenge statement</p></div>
+  </div>
+  <div class="foot"><span>Team Orbital_Nexus</span><span>2 / 7</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">What we built</div>
+  <h2>Type a sky position. Watch it change.</h2>
+  <div class="cols" style="grid-template-columns: 1.35fr 1fr; gap: 36px;">
+    <img class="shot" src="shot_ui.png" alt="SPHEREx Flipbook viewer">
+    <ul style="font-size:19px">
+      <li><b>Flipbook, Blink and Difference</b> views of every six-month pass</li>
+      <li>Any of the <b>6 detectors</b> (0.75–5 µm) or all combined</li>
+      <li><b>Catalogue overlay</b>: where Gaia says the star should be</li>
+      <li><b>“Does it really move / change?”</b> check against steady stars</li>
+      <li><b>Spectrum</b> from SPHEREx's colour-graded filters</li>
+      <li>Coordinates in any format, <b>shareable URLs</b>, works on phones</li>
+    </ul>
+  </div>
+  <div class="foot"><span>Team Orbital_Nexus</span><span>3 / 7</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">How it works</div>
+  <h2>From raw archive files to a clean time-lapse</h2>
+  <div class="steps">
+    <div class="step"><div class="n">01</div><h3>Find</h3><p>List every SPHEREx image covering the position (NASA/IPAC Infrared Science Archive).</p></div>
+    <div class="step"><div class="n">02</div><h3>Clean</h3><p>Cut out the patch, subtract the zodiacal-light glow, mask bad pixels using the mission's 32-bit quality flags.</p></div>
+    <div class="step"><div class="n">03</div><h3>Align</h3><p>SPHEREx sees the sky at a new rotation each time: re-project everything onto one north-up 6.15″ grid.</p></div>
+    <div class="step"><div class="n">04</div><h3>Stack</h3><p>Median-combine each six-month pass per detector into one clean frame; merge detectors for depth.</p></div>
+    <div class="step"><div class="n">05</div><h3>Check</h3><p>Compare measured motion and brightness with catalogues, using steady nearby stars as the noise floor.</p></div>
+  </div>
+  <p style="color:var(--muted); font-size:16px; margin-top:22px">Python (Astropy, Astroquery, Reproject) · static HTML/JS viewer on GitHub Pages · open source, Apache-2.0</p>
+  <div class="foot"><span>Team Orbital_Nexus</span><span>4 / 7</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Proof it works</div>
+  <h2>Barnard's Star, caught moving in one year</h2>
+  <div class="cols" style="grid-template-columns: 1fr 1.1fr;">
+    <img class="shot" src="shot_diff.png" alt="Difference image of Barnard's Star">
+    <div>
+      <div class="stats" style="grid-template-columns: 1fr 1fr; margin-top:0">
+        <div class="card"><div class="stat">10.18″</div><div class="statlbl">measured shift, Aug 2025 → Aug 2026</div></div>
+        <div class="card"><div class="stat">10.23″</div><div class="statlbl">predicted by ESA Gaia DR3</div></div>
+        <div class="card"><div class="stat ok">0.13 px</div><div class="statlbl">difference (0.80″)</div></div>
+        <div class="card"><div class="stat ok">123×</div><div class="statlbl">signal ÷ noise (steady stars moved 0.08″)</div></div>
+      </div>
+      <p style="color:#cfd3e6; font-size:17px; margin-top:20px">Red = where the star is now, blue = where it was. Pass/fail rules, with positive and negative controls, were written down <b>before</b> the data was analysed.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Team Orbital_Nexus</span><span>5 / 7</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">All five challenge targets</div>
+  <h2>Movers and variables, one tool</h2>
+  <div class="tgrid" id="tgrid">TILES</div>
+  <div class="foot"><span>Team Orbital_Nexus</span><span>6 / 7</span></div>
+</section>
+
+<section class="slide">
+  <div class="kicker">What's next</div>
+  <h2>Built for the next billion objects</h2>
+  <div class="cols">
+    <ul>
+      <li><b>Shift-and-add</b>: stack along a guessed motion to reveal faint movers (as WiseView does for WISE).</li>
+      <li><b>Live coordinates</b>: build any patch on demand, then cache it for everyone.</li>
+      <li><b>New data releases</b> drop in with one command as SPHEREx keeps mapping.</li>
+      <li>Overlay Gaia/WISE catalogues for every star, not just the target.</li>
+    </ul>
+    <div class="card">
+      <p style="margin:0 0 10px; font-size:18px"><b>Honest note:</b> on 15 Nov the archive's main search service was down for most of the day; we recovered through its backup image search and rebuilt every target.</p>
+      <p style="margin:18px 0 6px; color:var(--muted)">Try it</p>
+      <p class="big" style="font-size:26px">apaaragr.github.io/spherex-flipbook</p>
+      <p style="margin:12px 0 0; color:var(--muted); font-size:14px">Code: github.com/apaaragr/spherex-flipbook · Data: NASA SPHEREx via IRSA, ESA Gaia DR3, CatWISE2020 · Built with help from Claude (Anthropic)</p>
+    </div>
+  </div>
+  <div class="foot"><span>Team Orbital_Nexus</span><span>7 / 7</span></div>
+</section>
+</body></html>
