@@ -293,7 +293,7 @@ function renderPanels() {
 function renderStarbar(vd) {
   const d = S.dist[S.key];
   $("starbar").hidden = false;
-  $("backLink").href = `galaxy.html?star=${S.key}`;
+  $("backLink").href = `index.html?star=${S.key}`;
   $("sbName").textContent = S.m.label;
   const kind = S.m.kind === "moving" ? "nearby mover" : S.m.kind === "variable" ? "variable star" : "sky field";
   $("sbMeta").textContent = d ? `${d.distance_ly < 100 ? d.distance_ly.toFixed(1) : Math.round(d.distance_ly).toLocaleString()} light-years away · ${kind}` : kind;

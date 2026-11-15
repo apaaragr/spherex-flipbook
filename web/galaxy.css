@@ -50,3 +50,38 @@
   .gtop .toplinks { display: flex; }
   .gtop .toplinks a:first-child { display: none; }
 }
+
+/* intro card (chapter 1 doubles as the title page) */
+.caption.intro { width: min(480px, 100%); }
+.caption { text-align: left; }
+.caption .title { font-size: 46px; line-height: 1.02; margin-bottom: 14px; }
+.grad { background: linear-gradient(90deg, var(--cyan), var(--blue), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.caption .sub { font-size: 14px; }
+.introbtns { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0 4px; }
+.cta { display: inline-block; text-decoration: none; background: linear-gradient(135deg, var(--cyan), var(--blue)); color: var(--accent-ink); font-weight: 600; padding: 11px 18px; border-radius: 12px; }
+.ghost { display: inline-block; text-decoration: none; color: var(--text); padding: 10px 16px; border: 1px solid var(--hairline-2); border-radius: 12px; }
+.starlist .res { display: block; font-size: 12px; margin-top: 2px; }
+.starlist .res.good { color: var(--good); } .starlist .res.warn { color: var(--warn); }
+.starlist a { flex-direction: column; }
+.starlist .row1 { display: flex; justify-content: space-between; gap: 10px; }
+
+/* normal content after the story; opaque so it slides over the 3D scene */
+.after { position: relative; z-index: 4; background: var(--bg); border-top: 1px solid var(--hairline); padding: 56px max(24px, calc((100% - 1100px) / 2)) 24px; }
+.after h3 { font-family: "Space Grotesk", sans-serif; font-size: 30px; margin: 0 0 22px; }
+.steps3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.s3 { background: var(--surface); border: 1px solid var(--hairline); border-radius: 16px; padding: 20px; }
+.s3 .num { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan), var(--violet)); color: var(--accent-ink); font-weight: 700; }
+.s3 h4 { font-family: "Space Grotesk", sans-serif; font-size: 19px; margin: 12px 0 6px; }
+.s3 p { margin: 0; color: #cfd3e6; font-size: 14px; }
+.after .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+.after .facts div { background: var(--surface); border: 1px solid var(--hairline); border-radius: 14px; padding: 16px; }
+.after .facts b { display: block; font-family: "Space Grotesk", sans-serif; font-size: 22px; }
+.after .facts span { font-size: 13px; color: var(--muted); }
+.after .more { margin: 22px 0 0; font-size: 14px; color: var(--muted); }
+.after-foot { position: relative; z-index: 4; background: var(--bg); margin-top: 0; }
+.scene canvas { opacity: 0; transition: opacity 1.2s ease; }
+.scene.ready canvas { opacity: 1; }
+@media (max-width: 760px) {
+  .caption .title { font-size: 34px; }
+  .steps3, .after .facts { grid-template-columns: 1fr; }
+}

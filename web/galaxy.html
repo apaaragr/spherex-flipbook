@@ -1,62 +1,6 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Our Neighbourhood</title>
-<meta name="description" content="Scroll from the whole Milky Way down to the Sun's neighbourhood and pick a star to see it change in NASA SPHEREx images.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="galaxy.css">
-</head>
-<body class="galaxy-page">
-<div id="scene" class="scene" aria-label="3D view of the Milky Way and the Sun's neighbourhood"></div>
-
-<header class="top gtop">
-  <a class="brand" href="index.html" style="text-decoration:none;color:inherit">
-    <span class="logo" aria-hidden="true"></span>
-    <div><h1>SPHEREx Flipbook</h1><p class="tag">From the whole galaxy to our stellar neighbourhood.</p></div>
-  </a>
-  <nav class="toplinks"><a href="index.html">Home</a><a href="viewer.html" class="skip">Skip to the data →</a></nav>
-</header>
-
-<nav class="dots" aria-label="Chapters">
-  <button type="button" data-ch="0" aria-label="The Milky Way"></button>
-  <button type="button" data-ch="1" aria-label="The Sun's corner"></button>
-  <button type="button" data-ch="2" aria-label="Our neighbourhood"></button>
-</nav>
-
-<main class="story">
-  <section class="chapter" data-ch="0">
-    <div class="caption">
-      <p class="kicker">Chapter 1 · The Milky Way</p>
-      <h2>You are here.</h2>
-      <p>Our galaxy is about 100,000 light-years across, a slowly turning disc of a few hundred billion stars. The Sun is one of them, about 26,000 light-years from the centre.</p>
-      <p class="fine">The galaxy's shape is an artist's impression: no telescope can photograph the Milky Way from outside.</p>
-    </div>
-    <p class="scrollhint" id="scrollHint">Scroll to fly in ↓</p>
-  </section>
-  <section class="chapter" data-ch="1">
-    <div class="caption">
-      <p class="kicker">Chapter 2 · The Sun's corner</p>
-      <h2>A minor arm called the Orion Spur.</h2>
-      <p>We live between two of the galaxy's great spiral arms. Everything the challenge asked us to find sits in this tiny corner, so close that at galaxy scale it would all fit inside the Sun's dot.</p>
-    </div>
-  </section>
-  <section class="chapter" data-ch="2">
-    <div class="caption">
-      <p class="kicker">Chapter 3 · Our neighbourhood</p>
-      <h2>Pick a star.</h2>
-      <p>Each star sits in its true direction from the Sun. Distances run from 6 to 2,600 light-years, so they're drawn on a logarithmic scale: each ring is ten times farther than the one inside it.</p>
-      <ul class="starlist" id="starList"></ul>
-      <p class="fine">Distances from Gaia DR3 parallaxes. * WISE 0855 is too cold for Gaia, so its distance is an infrared parallax from the literature. Drag to rotate.</p>
-    </div>
-  </section>
-</main>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="galaxy.js"></script>
-</body>
-</html>
+<html lang="en"><head><meta charset="utf-8"><title>SPHEREx Flipbook</title>
+<meta name="robots" content="noindex">
+<script>location.replace("index.html" + location.search + location.hash);</script>
+<meta http-equiv="refresh" content="0; url=index.html">
+</head><body><a href="index.html">SPHEREx Flipbook</a></body></html>

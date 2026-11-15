@@ -4,7 +4,7 @@
 "use strict";
 (async function () {
   const host = document.getElementById("scene");
-  const fail = (msg) => { host.innerHTML = `<p style="padding:110px 24px;color:#8b8da3">${msg}</p>`; };
+  const fail = () => location.replace("about.html");
   if (typeof THREE === "undefined") return fail("The 3D view could not load. <a href='viewer.html'>Go straight to the data →</a>");
   const D = Math.PI / 180, SUN = new THREE.Vector3(-26, 0, 0), LOG_S = 0.05;
   const W = () => window.innerWidth, H = () => window.innerHeight;
@@ -91,20 +91,35 @@
     overlay.push({ el, local: p, when: "near", below: false });
     stars[k] = { m, g, p };
     const li = document.createElement("li");
-    li.innerHTML = `<a class="${s.kind}${k === selKey ? " sel" : ""}" href="${href}"><span>${s.label}</span><small>${dtxt} ly${s.verified ? "" : "*"} · ${s.kind === "moving" ? "mover" : "variable"}</small></a>`;
+    li.innerHTML = `<a class="${s.kind}${k === selKey ? " sel" : ""}" href="${href}"><span class="row1"><span>${s.label}</span><small>${dtxt} ly${s.verified ? "" : "*"} · ${s.kind === "moving" ? "mover" : "variable"}</small></span><span class="res"></span></a>`;
     list.appendChild(li);
+    fetch(`data/${k}/manifest.json`).then((r) => r.json()).then((m) => { const r = result(m), el = li.querySelector(".res"); el.textContent = r.text; el.classList.add(r.cls); }).catch(() => {});
+  }
+
+  function result(m) {   // same verdicts as the star page
+    const c = m.check, v = m.variability;
+    const sat = Math.max(0, ...m.passes.filter((p) => p.full).map((p) => p.saturated_fraction_at_target || 0));
+    if (m.kind === "moving" && c && c.measured_total_arcsec != null) {
+      const ok = c.error_arcsec < m.grid.pixel_arcsec && (c.signal_to_noise || 0) >= 3 && !/tentative/i.test(m.look_for || "");
+      return { cls: ok ? "good" : "warn", text: `${ok ? "✓ Moved" : "~ Tentative:"} ${c.measured_total_arcsec.toFixed(1)}″ in a year (catalogue ${c.predicted_total_arcsec.toFixed(1)}″)` };
+    }
+    if (v && sat > 0.5) return { cls: "warn", text: `! Too bright to measure brightness (saturated)` };
+    if (v) return { cls: "warn", text: `Brightness change ${Math.abs(v.median_change - 1) * 100 > 3 ? "" : "not "}detected` };
+    return { cls: "warn", text: "" };
   }
 
   // ---------- scroll -> camera keyframes ----------
   const KEYS = [
-    { target: new THREE.Vector3(0, 0, 0), off: new THREE.Vector3(-10, 62, 58) },
+    { target: new THREE.Vector3(-17, 0, 4), off: new THREE.Vector3(-10, 62, 58) },   // framed so the Sun clears the intro card
     { target: SUN.clone(), off: new THREE.Vector3(-3, 17, 9) },
     { target: SUN.clone(), off: new THREE.Vector3(-0.16, 0.2, 0.3) },
   ];
   const forceP = parseFloat(new URLSearchParams(location.search).get("p"));   // test hook: freeze scroll progress (0..1)
-  const progress = () => { if (forceP >= 0) return forceP; const max = document.documentElement.scrollHeight - innerHeight; return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0; };
+  const story = document.querySelector(".story");
+  const progress = () => { if (forceP >= 0) return forceP; const max = story.offsetHeight - innerHeight; return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0; };
+  const pastStory = () => scrollY > story.offsetHeight - innerHeight * 0.6;
   let ps = progress();
-  if (selKey) { scrollTo(0, document.documentElement.scrollHeight); ps = 1; }   // returning from a star: land in the neighbourhood
+  if (selKey) { scrollTo(0, story.offsetHeight - innerHeight); ps = 1; }   // returning from a star: land in the neighbourhood
   const hm = /^#ch([0-2])$/.exec(location.hash);
   if (!selKey && hm) { document.querySelectorAll(".chapter")[+hm[1]].scrollIntoView(); ps = progress(); }
   let yaw = 0, pitch = 0, drag = null;
@@ -121,6 +136,8 @@
   // chapters, dots, scroll hint
   const chapters = [...document.querySelectorAll(".chapter")], dots = [...document.querySelectorAll(".dots button")], hint = document.getElementById("scrollHint");
   dots.forEach((b) => (b.onclick = () => chapters[+b.dataset.ch].scrollIntoView({ behavior: "smooth" })));
+  document.getElementById("flyBtn").onclick = (e) => { e.preventDefault(); chapters[2].scrollIntoView({ behavior: "smooth" }); };
+  const dotsNav = document.querySelector(".dots");
   let lastCh = -1;
   function chapterUI(p) {
     const ch = p < 0.25 ? 0 : p < 0.75 ? 1 : 2;
@@ -162,7 +179,10 @@
       o.m.scale.setScalar(Math.min(1.6, Math.max(0.05, d / 0.4))); o.g.scale.setScalar(Math.min(0.03, Math.max(0.0015, d * 0.045)));
     }
     renderer.render(scene, camera);
-    for (const o of overlay) place(o.el, hood.localToWorld(o.local.clone()), o.when === "always" || near > 0.3, o.below);
+    const past = pastStory();
+    dotsNav.style.opacity = past ? 0 : 1;
+    for (const o of overlay) place(o.el, hood.localToWorld(o.local.clone()), !past && (o.when === "always" || near > 0.3), o.below);
+    if (!host.classList.contains("ready")) host.classList.add("ready");
     requestAnimationFrame(frame);
   })();
 })();

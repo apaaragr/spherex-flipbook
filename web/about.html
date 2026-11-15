@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About SPHEREx Flipbook</title>
+<meta name="description" content="NASA's SPHEREx photographs the whole sky every six months. SPHEREx Flipbook lines those photos up so anyone can spot stars and brown dwarfs on the move.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="landing.css">
+</head>
+<body class="landing">
+<header class="top">
+  <a class="brand" href="index.html" style="text-decoration:none;color:inherit">
+    <span class="logo" aria-hidden="true"></span>
+    <div><h1>SPHEREx Flipbook</h1><p class="tag">Watch the infrared sky change, six months at a time.</p></div>
+  </a>
+  <nav class="toplinks">
+    <a href="#targets">Targets</a>
+    <a href="#how">How it works</a>
+    <a href="https://github.com/apaaragr/spherex-flipbook" target="_blank" rel="noopener">Source</a>
+    <a class="cta small" href="index.html">Open viewer</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-copy">
+    <p class="kicker">NASA Space Apps Challenge 2026 · Planet X and SPHEREx</p>
+    <h2 class="headline">Catch the sky <span class="grad">in motion.</span></h2>
+    <p class="lede">NASA's SPHEREx telescope photographs the entire sky every six months in 102 infrared colours. SPHEREx Flipbook lines those photos up so anyone can spot stars and brown dwarfs on the move: the same trick that found Pluto.</p>
+    <div class="ctas">
+      <a class="cta" href="index.html">Fly through the galaxy →</a>
+      <a class="ghost" href="viewer.html?target=barnard">Skip to the data</a>
+    </div>
+  </div>
+  <figure class="hero-fig">
+    <div class="hero-frame">
+      <canvas id="heroCanvas" width="420" height="420" aria-label="Barnard's Star blinking between two SPHEREx passes"></canvas>
+      <span class="hero-date" id="heroDate"></span>
+    </div>
+    <figcaption>Real SPHEREx data: Barnard's Star blinking between Aug 2025 and Aug 2026. The red cross marks where ESA's Gaia predicts it should be.</figcaption>
+  </figure>
+</section>
+
+<section class="facts">
+  <div><b>6 months</b><span>for SPHEREx to map the whole sky</span></div>
+  <div><b>102</b><span>infrared colours, 0.75–5 µm</span></div>
+  <div><b>1 billion+</b><span>objects in every map</span></div>
+  <div><b class="grad">10.18″ vs 10.23″</b><span>our measured motion vs Gaia's prediction</span></div>
+</section>
+
+<section class="steps-l" id="how">
+  <p class="kicker">How to find a moving star</p>
+  <div class="steps3">
+    <div class="s3"><span class="num">1</span><h3>Line up the photos</h3><p>We fetch every SPHEREx image of a patch of sky, clean out the solar-system dust glow and bad pixels, and align them onto one north-up grid.</p></div>
+    <div class="s3"><span class="num">2</span><h3>Blink them</h3><p>Each six-month pass becomes one frame. Flip between frames, or subtract them: anything that moved shows up as a red–blue pair.</p></div>
+    <div class="s3"><span class="num">3</span><h3>Check it's real</h3><p>We compare the measured motion with the Gaia and CatWISE catalogues, using nearby steady stars as the noise floor.</p></div>
+  </div>
+</section>
+
+<section class="targets" id="targets">
+  <p class="kicker">The challenge's five test targets</p>
+  <h3 class="sec">Movers and variables</h3>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section class="skymap">
+  <p class="kicker">Where in the sky</p>
+  <h3 class="sec">The whole sky, flattened</h3>
+  <div class="mapwrap"><svg id="skymap" viewBox="0 0 800 420" role="img" aria-label="All-sky map with the five targets marked"></svg></div>
+  <p class="mapnote">All-sky map in equatorial coordinates (Mollweide projection). The glowing band is the plane of our Milky Way. Click a target to open it.</p>
+</section>
+
+<section class="closer">
+  <h3 class="sec">Somewhere in these maps is something nobody has noticed yet.</h3>
+  <a class="cta" href="index.html">Start exploring →</a>
+</section>
+
+<footer class="foot">
+  <div class="inner">
+    <p>This publication makes use of data products from the Spectro-Photometer for the History of the Universe, Epoch of Reionization and Ices Explorer (SPHEREx), a joint project of the Jet Propulsion Laboratory and the California Institute of Technology, funded by NASA. Data served by the NASA/IPAC Infrared Science Archive (IRSA). Reference positions and motions from ESA Gaia DR3 and CatWISE2020. Viewer design inspired by WiseView.</p>
+    <p><b>Use of AI:</b> code, analysis and text for this project were developed with help from Claude (Anthropic), an AI assistant. All images are real SPHEREx data; all results were checked against independent catalogues.</p>
+    <p>Team Orbital_Nexus · NASA Space Apps Challenge 2026, “Planet X and SPHEREx” · Open source (Apache-2.0) · <a href="https://github.com/apaaragr/spherex-flipbook" target="_blank" rel="noopener">Source code</a></p>
+  </div>
+</footer>
+<script src="landing.js"></script>
+</body>
+</html>
