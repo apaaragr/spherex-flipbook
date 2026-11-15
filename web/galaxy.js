@@ -78,6 +78,7 @@
   const labels = [];
   const mk = (cls, html, href) => { const a = document.createElement(href ? "a" : "span"); a.className = "slabel " + cls; a.innerHTML = html; if (href) a.href = href; host.appendChild(a); return a; };
   labels.push({ el: mk("sun below", "Sun · you are here"), world: () => SUN.clone(), near: true, far: true });
+  const stars = {};
   const dist = await fetch("data/distances.json").then((r) => r.json()).catch(() => ({}));
   for (const [k, s] of Object.entries(dist)) {
     const l = s.l * D, b = s.b * D, rr = LOG_S * Math.log10(Math.max(1.5, s.distance_ly));
@@ -87,8 +88,10 @@
     const g = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: colr, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); g.position.copy(p); g.scale.setScalar(0.02); hood.add(g);
     hood.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([p, new THREE.Vector3(p.x, 0, p.z)]), lineMat(colr, 0.45)));
     const dtxt = s.distance_ly < 100 ? s.distance_ly.toFixed(1) : Math.round(s.distance_ly / 10) * 10;
-    labels.push({ el: mk(s.kind, `${s.label}<small>${Number(dtxt).toLocaleString()} ly${s.verified ? "" : "*"}</small>`, `viewer.html?target=${k}`),
-                  world: () => hood.localToWorld(p.clone()), near: true, far: false });
+    const el = mk(s.kind, `${s.label}<small>${Number(dtxt).toLocaleString()} ly${s.verified ? "" : "*"}</small>`, `viewer.html?target=${k}`);
+    el.addEventListener("click", (e) => { e.preventDefault(); select(k); });
+    stars[k] = { p: p.clone(), s, el, m, g };
+    labels.push({ el, world: () => hood.localToWorld(p.clone()), near: true, far: false });
   }
 
   // ---------- views + fly-to ----------
@@ -98,7 +101,7 @@
       fine: "The galaxy's shape is an artist's impression: no telescope can photograph the Milky Way from outside." },
     home: { target: SUN.clone(), pos: SUN.clone().add(new THREE.Vector3(-0.16, 0.2, 0.3)), kicker: "Our stellar neighbourhood", title: "Where the targets really are",
       text: "Each star sits in its true direction from the Sun. Distances run from 6 to thousands of light-years, so they are drawn on a logarithmic scale: each ring is ten times farther than the one inside it. Lines drop each star to the plane of the galaxy.",
-      fine: "Distances from parallax. Barnard's Star: Gaia DR3. * = provisional value, to be verified against Gaia DR3." },
+      fine: "Distances from Gaia DR3 parallaxes. * = WISE 0855 is too cold for Gaia, so its distance is an infrared parallax from the literature." },
   };
   let fly = null;
   function go(name, instant) {
@@ -109,10 +112,45 @@
     if (instant) { camera.position.copy(v.pos); controls.target.copy(v.target); return; }
     fly = { t0: performance.now(), dur: 3200, p0: camera.position.clone(), t0v: controls.target.clone(), p1: v.pos, t1: v.target };
   }
-  document.getElementById("btnGalaxy").onclick = () => go("galaxy");
-  document.getElementById("btnHome").onclick = () => go("home");
-  go(new URLSearchParams(location.search).get("view") === "home" ? "home" : "galaxy", true);
-  window.addEventListener("resize", () => { renderer.setSize(W(), H()); camera.aspect = W() / H(); camera.updateProjectionMatrix(); });
+  const drawer = document.getElementById("drawer"), frame = document.getElementById("drawerFrame");
+  let selected = null;
+  function setOffset(open) {
+    if (open && W() > 760) camera.setViewOffset(W(), H(), Math.round(W() * 0.2), 0, W(), H()); else camera.clearViewOffset();
+  }
+  async function select(k) {
+    const st = stars[k]; if (!st) return;
+    selected = k;
+    Object.values(stars).forEach((o) => o.el.classList.toggle("sel", o === st));
+    const m = await fetch(`data/${k}/manifest.json`).then((r) => r.json()).catch(() => ({}));
+    const band = m.kind === "moving" && m.check && m.check.bands && m.check.bands[0] !== "ALL" ? m.check.bands[0] : "ALL";
+    const q = `target=${k}&band=${band}&mode=${m.kind === "moving" ? "blink" : "flip"}`;
+    frame.src = `viewer.html?${q}&embed=1`;
+    document.getElementById("drawerFull").href = `viewer.html?${q}`;
+    document.getElementById("drawerTitle").textContent = st.s.label;
+    drawer.hidden = false; setOffset(true); document.querySelector(".hint").style.display = "none";
+    const d = st.s.distance_ly;
+    document.getElementById("hudKicker").textContent = st.s.kind === "moving" ? "A nearby mover" : "A variable star";
+    document.getElementById("hudTitle").textContent = st.s.label;
+    document.getElementById("hudText").textContent = `${(m.blurb || "")} Distance: ${d < 100 ? d.toFixed(1) : Math.round(d).toLocaleString()} light-years.`;
+    document.getElementById("hudFine").textContent = `Distance source: ${st.s.source}.`;
+    document.getElementById("btnGalaxy").classList.remove("on"); document.getElementById("btnHome").classList.remove("on");
+    const wp = hood.localToWorld(st.p.clone()), back = camera.position.clone().sub(controls.target).normalize();
+    fly = { t0: performance.now(), dur: 2200, p0: camera.position.clone(), t0v: controls.target.clone(), p1: wp.clone().add(back.multiplyScalar(0.07)), t1: wp };
+    history.replaceState(null, "", `?star=${k}`);
+  }
+  function closeDrawer() {
+    drawer.hidden = true; frame.src = "about:blank"; selected = null; setOffset(false); document.querySelector(".hint").style.display = "";
+    Object.values(stars).forEach((o) => o.el.classList.remove("sel"));
+    history.replaceState(null, "", location.pathname);
+    go("home");
+  }
+  document.getElementById("drawerClose").onclick = closeDrawer;
+  document.getElementById("btnGalaxy").onclick = () => { if (selected) { drawer.hidden = true; frame.src = "about:blank"; selected = null; setOffset(false); } go("galaxy"); };
+  document.getElementById("btnHome").onclick = () => { if (selected) { drawer.hidden = true; frame.src = "about:blank"; selected = null; setOffset(false); } go("home"); };
+  const qp = new URLSearchParams(location.search);
+  if (qp.get("star") && stars[qp.get("star")]) { go("home", true); select(qp.get("star")); }
+  else go(qp.get("view") === "home" ? "home" : "galaxy", true);
+  window.addEventListener("resize", () => { renderer.setSize(W(), H()); camera.aspect = W() / H(); setOffset(!drawer.hidden); camera.updateProjectionMatrix(); });
 
   const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
   const v3 = new THREE.Vector3();
@@ -137,8 +175,14 @@
     const nearness = Math.max(0, Math.min(1, (3 - dSun) / 2.5));   // 0 far ... 1 at the Sun
     galaxyMat.opacity = 0.85 - 0.78 * nearness;
     galaxyMat.size = 0.55 - 0.4 * nearness;
-    sunGlow.scale.setScalar(Math.max(0.03, dSun * 0.035));
+    sunGlow.scale.setScalar(Math.max(0.0025, Math.min(0.03, dSun * 0.06)));
+    sun.scale.setScalar(Math.min(1.6, Math.max(0.05, dSun / 0.4)));
     hood.visible = nearness > 0.02;
+    for (const o of Object.values(stars)) {           // constant on-screen size, whatever the zoom
+      const d = camera.position.distanceTo(hood.localToWorld(o.p.clone()));
+      o.m.scale.setScalar(Math.min(1.6, Math.max(0.05, d / 0.4)));
+      o.g.scale.setScalar(Math.min(0.03, Math.max(0.0015, d * 0.045)));
+    }
     renderer.render(scene, camera);
     for (const L of labels) place(L.el, L.world(), (L.near && nearness > 0.3) || (L.far && nearness <= 0.3));
     for (const r of rings) place(r.el, hood.localToWorld(r.at.clone()), nearness > 0.3);

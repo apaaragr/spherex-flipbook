@@ -30,6 +30,7 @@ function readURL() {
 function writeURL() {
   const q = new URLSearchParams({ target: S.key || "", band: S.band, mode: S.mode, zoom: S.zoom, speed: S.speed,
     invert: +S.invert, overlay: +S.overlay, full: +S.fullOnly });
+  if (document.body.classList.contains("embed")) q.set("embed", "1");
   history.replaceState(null, "", "?" + q.toString());
 }
 
@@ -308,6 +309,7 @@ function goCoord() {
 
 async function init() {
   const q = readURL();
+  if (q.get("embed") === "1") document.body.classList.add("embed");
   $("speed").value = S.speed; $("speedOut").textContent = S.speed + " ms";
   $("zoom").value = S.zoom; $("zoomOut").textContent = S.zoom + "×";
   $("invert").checked = S.invert; $("overlay").checked = S.overlay; $("fullOnly").checked = S.fullOnly;

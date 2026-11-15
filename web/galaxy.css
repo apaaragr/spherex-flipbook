@@ -24,3 +24,16 @@
   .hud h2 { font-size: 21px; }
   .hint { display: none; }
 }
+
+.drawer { position: absolute; top: 12px; right: 12px; bottom: 12px; width: min(600px, calc(100% - 24px)); display: flex; flex-direction: column;
+  background: rgba(5, 5, 16, 0.92); border: 1px solid var(--hairline-2); border-radius: 14px; overflow: hidden; backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .6); animation: slidein .35s ease-out; z-index: 4; }
+.drawer[hidden] { display: none; }
+@keyframes slidein { from { transform: translateX(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+.drawer-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--hairline); }
+.drawer-bar span { flex: 1; font-family: "Space Grotesk", sans-serif; font-weight: 600; }
+.drawer-bar a { font-size: 13px; text-decoration: none; }
+.drawer-bar button { padding: 4px 10px; }
+.drawer iframe { flex: 1; width: 100%; border: 0; background: var(--bg); }
+.slabel.sel { background: linear-gradient(135deg, rgba(34,211,238,.35), rgba(59,130,246,.35)); }
+@media (max-width: 760px) { .drawer { top: auto; height: 70%; } }

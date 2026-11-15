@@ -130,3 +130,10 @@ dd { margin: 0; font-variant-numeric: tabular-nums; word-break: break-word; }
   .canvasWrap { padding: 6px; }
   .how, .foot { padding-left: 16px; padding-right: 16px; }
 }
+
+/* embedded inside the galaxy view's side panel */
+body.embed .top, body.embed .how, body.embed .foot, body.embed .keys { display: none; }
+body.embed .layout { grid-template-columns: minmax(0, 1fr); padding: 12px; gap: 12px; }
+body.embed .stage { order: -1; }
+body.embed .side { grid-column: auto; }
+body.embed { background: var(--bg); }

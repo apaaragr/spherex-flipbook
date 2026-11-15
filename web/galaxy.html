@@ -32,7 +32,15 @@
     </div>
     <p class="fine" id="hudFine"></p>
   </div>
-  <div class="hint">Drag to rotate · scroll or pinch to zoom · click a star's label to open it in the viewer</div>
+  <aside class="drawer" id="drawer" aria-label="SPHEREx flipbook for the selected star" hidden>
+    <div class="drawer-bar">
+      <span id="drawerTitle">SPHEREx flipbook</span>
+      <a id="drawerFull" href="viewer.html" target="_blank" rel="noopener">Full viewer ↗</a>
+      <button type="button" id="drawerClose" aria-label="Close">✕</button>
+    </div>
+    <iframe id="drawerFrame" title="SPHEREx flipbook" loading="lazy"></iframe>
+  </aside>
+  <div class="hint">Drag to rotate · scroll or pinch to zoom · click a star to fly to it and open its SPHEREx flipbook</div>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
