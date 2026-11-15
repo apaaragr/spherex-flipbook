@@ -1,0 +1,249 @@
+{
+ "target": "wise0855",
+ "label": "WISE 0855\u22120714",
+ "kind": "moving",
+ "reference": "CatWISE2020 J085507.96-071439.3",
+ "blurb": "The coldest brown dwarf known (about \u221225 \u00b0C), 7.4 light-years away. It was discovered in 2014 by spotting its motion in NASA WISE images.",
+ "look_for": "Choose detector D6 (4.4\u20135 \u00b5m) and Blink: a very faint dot appears near the red cross. At SPHEREx's depth this is a tentative detection: right direction (west), measured motion about 25% short of the catalogue, probably blended with background sources.",
+ "grid": {
+  "n": 59,
+  "pixel_arcsec": 6.15,
+  "ra": 133.76040492006462,
+  "dec": -7.241334762621827,
+  "fov_deg": 0.1
+ },
+ "built": "2026-11-15 22:04 IST",
+ "spherex_versions": [
+  "7.0.5"
+ ],
+ "n_images_total": 258,
+ "n_images_used": 216,
+ "n_failed": 0,
+ "passes": [
+  {
+   "index": 0,
+   "mjd": 60801.44564,
+   "date": "2025-05-06",
+   "start": "2025-05-05",
+   "end": "2025-05-06",
+   "n_images": 30,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    28.144588252182793,
+    28.889505383262623
+   ],
+   "saturated_fraction_at_target": 0.0,
+   "frames": {
+    "ALL": "p0_ALL.png",
+    "D1": "p0_D1.png",
+    "D2": "p0_D2.png",
+    "D3": "p0_D3.png",
+    "D4": "p0_D4.png",
+    "D5": "p0_D5.png",
+    "D6": "p0_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p0_D1_diff.png",
+    "D2": "p0_D2_diff.png",
+    "D3": "p0_D3_diff.png",
+    "D4": "p0_D4_diff.png",
+    "D5": "p0_D5_diff.png",
+    "D6": "p0_D6_diff.png",
+    "ALL": "p0_ALL_diff.png"
+   }
+  },
+  {
+   "index": 1,
+   "mjd": 60986.787279,
+   "date": "2025-11-07",
+   "start": "2025-10-31",
+   "end": "2025-11-14",
+   "n_images": 84,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    28.806414719071622,
+    28.97499434456972
+   ],
+   "saturated_fraction_at_target": 0.0,
+   "frames": {
+    "ALL": "p1_ALL.png",
+    "D1": "p1_D1.png",
+    "D2": "p1_D2.png",
+    "D3": "p1_D3.png",
+    "D4": "p1_D4.png",
+    "D5": "p1_D5.png",
+    "D6": "p1_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p1_D1_diff.png",
+    "D2": "p1_D2_diff.png",
+    "D3": "p1_D3_diff.png",
+    "D4": "p1_D4_diff.png",
+    "D5": "p1_D5_diff.png",
+    "D6": "p1_D6_diff.png",
+    "ALL": "p1_ALL_diff.png"
+   }
+  },
+  {
+   "index": 2,
+   "mjd": 61021.823521,
+   "date": "2025-12-12",
+   "start": "2025-12-11",
+   "end": "2025-12-13",
+   "n_images": 18,
+   "detectors": [
+    "D2",
+    "D3",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    28.931523745707764,
+    28.991154835681805
+   ],
+   "saturated_fraction_at_target": 0.0,
+   "frames": {
+    "ALL": "p2_ALL.png",
+    "D2": "p2_D2.png",
+    "D3": "p2_D3.png",
+    "D5": "p2_D5.png",
+    "D6": "p2_D6.png"
+   },
+   "diff_frames": {
+    "D2": "p2_D2_diff.png",
+    "D3": "p2_D3_diff.png",
+    "D5": "p2_D5_diff.png",
+    "D6": "p2_D6_diff.png",
+    "ALL": "p2_ALL_diff.png"
+   }
+  },
+  {
+   "index": 3,
+   "mjd": 61162.402278,
+   "date": "2026-05-02",
+   "start": "2026-04-21",
+   "end": "2026-05-14",
+   "n_images": 84,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.4335088421575,
+    29.05599688510353
+   ],
+   "saturated_fraction_at_target": 0.0,
+   "frames": {
+    "ALL": "p3_ALL.png",
+    "D1": "p3_D1.png",
+    "D2": "p3_D2.png",
+    "D3": "p3_D3.png",
+    "D4": "p3_D4.png",
+    "D5": "p3_D5.png",
+    "D6": "p3_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p3_D1_diff.png",
+    "D2": "p3_D2_diff.png",
+    "D3": "p3_D3_diff.png",
+    "D4": "p3_D4_diff.png",
+    "D5": "p3_D5_diff.png",
+    "D6": "p3_D6_diff.png",
+    "ALL": "p3_ALL_diff.png"
+   }
+  }
+ ],
+ "diff_base": "2025-05-06",
+ "diff": {
+  "file": "diff_ALL.png",
+  "from": "2025-05-06",
+  "to": "2026-05-02"
+ },
+ "check": {
+  "from": "2025-05-06",
+  "to": "2026-05-02",
+  "years": 0.99,
+  "bands": [
+   "D6",
+   "D5"
+  ],
+  "measured_arcsec": [
+   -5.93,
+   0.02
+  ],
+  "predicted_arcsec": [
+   -7.93,
+   1.02
+  ],
+  "measured_total_arcsec": 5.93,
+  "predicted_total_arcsec": 7.99,
+  "error_arcsec": 2.23,
+  "field_star_shift_arcsec_median": 0.44,
+  "n_field_stars": 8,
+  "signal_to_noise": 13.6
+ },
+ "variability": {
+  "from": "2025-05-06",
+  "to": "2026-05-02",
+  "per_detector": {
+   "D1": {
+    "target_ratio": 2.845,
+    "field_ratio_median": 0.715,
+    "field_ratio_scatter": 0.272
+   },
+   "D2": {
+    "target_ratio": 2.785,
+    "field_ratio_median": 0.971,
+    "field_ratio_scatter": 0.042
+   },
+   "D3": {
+    "target_ratio": 2.575,
+    "field_ratio_median": 1.221,
+    "field_ratio_scatter": 0.201
+   },
+   "D4": {
+    "target_ratio": 6.242,
+    "field_ratio_median": 1.289,
+    "field_ratio_scatter": 0.126
+   },
+   "D5": {
+    "target_ratio": 1.19,
+    "field_ratio_median": 1.072,
+    "field_ratio_scatter": 0.016
+   },
+   "D6": {
+    "target_ratio": 1.576,
+    "field_ratio_median": 1.035,
+    "field_ratio_scatter": 0.204
+   }
+  },
+  "median_change": 2.489,
+  "median_field_scatter": 0.164
+ },
+ "spectrum": {
+  "file": "spectrum.json",
+  "n_points": 216
+ }
+}

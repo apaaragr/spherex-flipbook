@@ -1,0 +1,215 @@
+{
+ "target": "epsindb",
+ "label": "Epsilon Indi B",
+ "kind": "moving",
+ "reference": "CatWISE2020 position + published eps Ind system motion",
+ "blurb": "A pair of brown dwarfs orbiting the star Epsilon Indi, 12 light-years away. They drift about 4.7\u2033 a year, under one SPHEREx pixel, so the motion is subtle.",
+ "look_for": "Use Difference mode and look for a faint red\u2013blue pair at the cross.",
+ "grid": {
+  "n": 59,
+  "pixel_arcsec": 6.15,
+  "ra": 331.0963197786571,
+  "dec": -56.800793654654214,
+  "fov_deg": 0.1
+ },
+ "built": "2026-11-15 22:03 IST",
+ "spherex_versions": [
+  "7.0.5"
+ ],
+ "n_images_total": 341,
+ "n_images_used": 211,
+ "n_failed": 0,
+ "passes": [
+  {
+   "index": 0,
+   "mjd": 60795.085674,
+   "date": "2025-04-30",
+   "start": "2025-04-24",
+   "end": "2025-06-10",
+   "n_images": 63,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.434260580394508,
+    29.277506924610535
+   ],
+   "saturated_fraction_at_target": 0.0,
+   "frames": {
+    "ALL": "p0_ALL.png",
+    "D1": "p0_D1.png",
+    "D2": "p0_D2.png",
+    "D3": "p0_D3.png",
+    "D4": "p0_D4.png",
+    "D5": "p0_D5.png",
+    "D6": "p0_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p0_D1_diff.png",
+    "D2": "p0_D2_diff.png",
+    "D3": "p0_D3_diff.png",
+    "D4": "p0_D4_diff.png",
+    "D5": "p0_D5_diff.png",
+    "D6": "p0_D6_diff.png",
+    "ALL": "p0_ALL_diff.png"
+   }
+  },
+  {
+   "index": 1,
+   "mjd": 60954.3329275,
+   "date": "2025-10-06",
+   "start": "2025-09-28",
+   "end": "2025-11-12",
+   "n_images": 84,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.153045549425723,
+    29.09780118588563
+   ],
+   "saturated_fraction_at_target": 0.01,
+   "frames": {
+    "ALL": "p1_ALL.png",
+    "D1": "p1_D1.png",
+    "D2": "p1_D2.png",
+    "D3": "p1_D3.png",
+    "D4": "p1_D4.png",
+    "D5": "p1_D5.png",
+    "D6": "p1_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p1_D1_diff.png",
+    "D2": "p1_D2_diff.png",
+    "D3": "p1_D3_diff.png",
+    "D4": "p1_D4_diff.png",
+    "D5": "p1_D5_diff.png",
+    "D6": "p1_D6_diff.png",
+    "ALL": "p1_ALL_diff.png"
+   }
+  },
+  {
+   "index": 2,
+   "mjd": 61155.09135,
+   "date": "2026-04-25",
+   "start": "2026-04-18",
+   "end": "2026-05-04",
+   "n_images": 64,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    28.798525866960603,
+    28.87125134178289
+   ],
+   "saturated_fraction_at_target": 0.0,
+   "frames": {
+    "ALL": "p2_ALL.png",
+    "D1": "p2_D1.png",
+    "D2": "p2_D2.png",
+    "D3": "p2_D3.png",
+    "D4": "p2_D4.png",
+    "D5": "p2_D5.png",
+    "D6": "p2_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p2_D1_diff.png",
+    "D2": "p2_D2_diff.png",
+    "D3": "p2_D3_diff.png",
+    "D4": "p2_D4_diff.png",
+    "D5": "p2_D5_diff.png",
+    "D6": "p2_D6_diff.png",
+    "ALL": "p2_ALL_diff.png"
+   }
+  }
+ ],
+ "diff_base": "2025-04-30",
+ "diff": {
+  "file": "diff_ALL.png",
+  "from": "2025-04-30",
+  "to": "2026-04-25"
+ },
+ "check": {
+  "from": "2025-04-30",
+  "to": "2026-04-25",
+  "years": 0.99,
+  "bands": [
+   "D2",
+   "D3"
+  ],
+  "measured_arcsec": [
+   3.66,
+   -2.28
+  ],
+  "predicted_arcsec": [
+   3.91,
+   -2.5
+  ],
+  "measured_total_arcsec": 4.31,
+  "predicted_total_arcsec": 4.64,
+  "error_arcsec": 0.33,
+  "field_star_shift_arcsec_median": 0.11,
+  "n_field_stars": 8,
+  "signal_to_noise": 40.0
+ },
+ "variability": {
+  "from": "2025-04-30",
+  "to": "2026-04-25",
+  "per_detector": {
+   "D1": {
+    "target_ratio": 0.245,
+    "field_ratio_median": 0.42,
+    "field_ratio_scatter": 0.327
+   },
+   "D2": {
+    "target_ratio": 0.65,
+    "field_ratio_median": 1.055,
+    "field_ratio_scatter": 0.038
+   },
+   "D3": {
+    "target_ratio": 0.975,
+    "field_ratio_median": 0.885,
+    "field_ratio_scatter": 0.051
+   },
+   "D4": {
+    "target_ratio": 0.492,
+    "field_ratio_median": 0.934,
+    "field_ratio_scatter": 0.133
+   },
+   "D5": {
+    "target_ratio": 1.319,
+    "field_ratio_median": 0.969,
+    "field_ratio_scatter": 0.135
+   },
+   "D6": {
+    "target_ratio": 0.925,
+    "field_ratio_median": 0.914,
+    "field_ratio_scatter": 0.045
+   }
+  },
+  "median_change": 0.814,
+  "median_field_scatter": 0.092
+ },
+ "spectrum": {
+  "file": "spectrum.json",
+  "n_points": 209
+ }
+}

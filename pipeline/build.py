@@ -312,7 +312,14 @@ def main():
         save_diff(fb["ALL"] - fa["ALL"], out_dir / "diff_ALL.png")
         manifest["diff"] = {"file": "diff_ALL.png", "from": pa["date"], "to": pb["date"]}
         check = {"from": pa["date"], "to": pb["date"], "years": round((pb["mjd"] - pa["mjd"]) / 365.25, 2)}
-        ca, cb = centroid(fa["ALL"], *pa["predicted_px"]), centroid(fb["ALL"], *pb["predicted_px"])
+        # measure on the detectors where the target is bright (e.g. D5/D6 for a cold brown dwarf); default: all combined
+        cbands = [d for d in t.get("check_bands", []) if d in fa and d in fb]
+        if cbands:
+            fa = dict(fa, CHK=np.nanmean([robust_z(fa[d]) for d in cbands], 0))
+            fb = dict(fb, CHK=np.nanmean([robust_z(fb[d]) for d in cbands], 0))
+        K = "CHK" if cbands else "ALL"
+        check["bands"] = cbands or ["ALL"]
+        ca, cb = centroid(fa[K], *pa["predicted_px"]), centroid(fb[K], *pb["predicted_px"])
         if ca and cb:
             meas = np.subtract(cb, ca) * PIX
             pred = np.subtract(pb["predicted_px"], pa["predicted_px"]) * PIX
@@ -322,9 +329,9 @@ def main():
                          predicted_total_arcsec=round(float(np.hypot(*pred)), 2),
                          error_arcsec=round(float(np.hypot(*(meas - pred))), 2))
             shifts = []
-            for (x, y) in field_stars(fa["ALL"], ca):
-                c1 = centroid(fa["ALL"], x, y)
-                c2 = centroid(fb["ALL"], *c1) if c1 else None
+            for (x, y) in field_stars(fa[K], ca):
+                c1 = centroid(fa[K], x, y)
+                c2 = centroid(fb[K], *c1) if c1 else None
                 if c1 and c2:
                     shifts.append(float(np.hypot(*np.subtract(c2, c1))) * PIX)
             if shifts:

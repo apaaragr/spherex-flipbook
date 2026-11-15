@@ -23,7 +23,11 @@
   "parallax": 0,
   "ref": "CatWISE2020 J085507.96-071439.3",
   "blurb": "The coldest brown dwarf known (about −25 °C), 7.4 light-years away. It was discovered in 2014 by spotting its motion in NASA WISE images.",
-  "look_for": "It is almost invisible below 3 µm: choose detector D5 or D6 and look for a faint dot near the cross, moving west about 8″ a year."
+  "look_for": "Choose detector D6 (4.4–5 µm) and Blink: a very faint dot appears near the red cross. At SPHEREx's depth this is a tentative detection: right direction (west), measured motion about 25% short of the catalogue, probably blended with background sources.",
+  "check_bands": [
+   "D6",
+   "D5"
+  ]
  },
  "epsindb": {
   "label": "Epsilon Indi B",
@@ -36,7 +40,11 @@
   "parallax": 0,
   "ref": "CatWISE2020 position + published eps Ind system motion",
   "blurb": "A pair of brown dwarfs orbiting the star Epsilon Indi, 12 light-years away. They drift about 4.7″ a year, under one SPHEREx pixel, so the motion is subtle.",
-  "look_for": "Use Difference mode and look for a faint red–blue pair at the cross."
+  "look_for": "Use Difference mode and look for a faint red–blue pair at the cross.",
+  "check_bands": [
+   "D2",
+   "D3"
+  ]
  },
  "rwaur": {
   "label": "RW Aurigae",
