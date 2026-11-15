@@ -15,6 +15,8 @@ function result(m) {
     const ok = c.error_arcsec < m.grid.pixel_arcsec && (c.signal_to_noise || 0) >= 3 && /^(?!.*tentative)/i.test(m.look_for || "");
     return { cls: ok ? "good" : "warn", text: `${ok ? "Moved" : "Tentative:"} ${c.measured_total_arcsec.toFixed(1)}″ in ${c.years} yr (catalogue ${c.predicted_total_arcsec.toFixed(1)}″)` };
   }
+  const sat = Math.max(0, ...m.passes.filter((p) => p.full).map((p) => p.saturated_fraction_at_target || 0));
+  if (v && sat > 0.5) return { cls: "warn", text: `Too bright to measure: saturated in ${Math.round(sat * 100)}% of images` };
   if (v) {
     const pct = Math.abs(v.median_change - 1) * 100, real = pct > 3 * Math.max(v.median_field_scatter * 100, 1);
     return { cls: real ? "good" : "warn", text: `${real ? "" : "Not clearly: "}${v.median_change >= 1 ? "brightened" : "faded"} ${pct.toFixed(0)}% (steady stars ±${(v.median_field_scatter * 100).toFixed(1)}%)` };

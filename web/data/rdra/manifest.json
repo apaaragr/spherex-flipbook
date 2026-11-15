@@ -1,0 +1,165 @@
+{
+ "target": "rdra",
+ "label": "R Draconis",
+ "kind": "variable",
+ "reference": "approximate (variable star)",
+ "blurb": "A Mira-type pulsating red giant that swells and shrinks over a roughly 245-day cycle, changing brightness strongly in the infrared.",
+ "look_for": "Blink between passes. R Draconis is one of the brightest infrared stars in the sky and overflows SPHEREx's detectors, so the tool flags its brightness change as unmeasurable instead of inventing a number.",
+ "grid": {
+  "n": 59,
+  "pixel_arcsec": 6.15,
+  "ra": 248.16749999999996,
+  "dec": 66.755,
+  "fov_deg": 0.1
+ },
+ "built": "2026-11-15 22:18 IST",
+ "spherex_versions": [
+  "7.0.5"
+ ],
+ "n_images_total": 413,
+ "n_images_used": 196,
+ "n_failed": 0,
+ "passes": [
+  {
+   "index": 0,
+   "mjd": 60838.864463,
+   "date": "2025-06-12",
+   "start": "2025-05-16",
+   "end": "2025-07-22",
+   "n_images": 84,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.0,
+    28.999999999997947
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p0_ALL.png",
+    "D1": "p0_D1.png",
+    "D2": "p0_D2.png",
+    "D3": "p0_D3.png",
+    "D4": "p0_D4.png",
+    "D5": "p0_D5.png",
+    "D6": "p0_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p0_D1_diff.png",
+    "D2": "p0_D2_diff.png",
+    "D3": "p0_D3_diff.png",
+    "D4": "p0_D4_diff.png",
+    "D5": "p0_D5_diff.png",
+    "D6": "p0_D6_diff.png",
+    "ALL": "p0_ALL_diff.png"
+   }
+  },
+  {
+   "index": 1,
+   "mjd": 61009.483978000004,
+   "date": "2025-11-30",
+   "start": "2025-10-17",
+   "end": "2026-01-13",
+   "n_images": 84,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.0,
+    28.999999999997947
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p1_ALL.png",
+    "D1": "p1_D1.png",
+    "D2": "p1_D2.png",
+    "D3": "p1_D3.png",
+    "D4": "p1_D4.png",
+    "D5": "p1_D5.png",
+    "D6": "p1_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p1_D1_diff.png",
+    "D2": "p1_D2_diff.png",
+    "D3": "p1_D3_diff.png",
+    "D4": "p1_D4_diff.png",
+    "D5": "p1_D5_diff.png",
+    "D6": "p1_D6_diff.png",
+    "ALL": "p1_ALL_diff.png"
+   }
+  },
+  {
+   "index": 2,
+   "mjd": 61166.2539475,
+   "date": "2026-05-06",
+   "start": "2026-04-22",
+   "end": "2026-05-13",
+   "n_images": 28,
+   "detectors": [
+    "D3",
+    "D6"
+   ],
+   "full": false,
+   "predicted_px": [
+    29.0,
+    28.999999999997947
+   ],
+   "saturated_fraction_at_target": 1.0,
+   "frames": {
+    "ALL": "p2_ALL.png",
+    "D3": "p2_D3.png",
+    "D6": "p2_D6.png"
+   },
+   "diff_frames": {
+    "D3": "p2_D3_diff.png",
+    "D6": "p2_D6_diff.png",
+    "ALL": "p2_ALL_diff.png"
+   }
+  }
+ ],
+ "diff_base": "2025-06-12",
+ "variability": {
+  "from": "2025-06-12",
+  "to": "2025-11-30",
+  "per_detector": {
+   "D1": {
+    "target_ratio": 1.481,
+    "field_ratio_median": 0.688,
+    "field_ratio_scatter": 0.391
+   },
+   "D2": {
+    "target_ratio": 0.797,
+    "field_ratio_median": 0.763,
+    "field_ratio_scatter": 0.36
+   },
+   "D5": {
+    "target_ratio": 1.088,
+    "field_ratio_median": 0.696,
+    "field_ratio_scatter": 0.092
+   },
+   "D6": {
+    "target_ratio": 0.771,
+    "field_ratio_median": 0.78,
+    "field_ratio_scatter": 0.137
+   }
+  },
+  "median_change": 1.304,
+  "median_field_scatter": 0.248
+ },
+ "spectrum": {
+  "file": "spectrum.json",
+  "n_points": 194
+ }
+}

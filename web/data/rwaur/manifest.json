@@ -1,0 +1,147 @@
+{
+ "target": "rwaur",
+ "label": "RW Aurigae",
+ "kind": "variable",
+ "reference": "approximate (variable star)",
+ "blurb": "A young T Tauri star system still wrapped in a dusty disk. It brightens and dims unpredictably as clumps of dust pass in front of it.",
+ "look_for": "Blink between passes. RW Aurigae is bright enough to overflow SPHEREx's detectors, so the tool flags its brightness change as unmeasurable instead of inventing a number.",
+ "grid": {
+  "n": 59,
+  "pixel_arcsec": 6.15,
+  "ra": 76.9564,
+  "dec": 30.4014,
+  "fov_deg": 0.1
+ },
+ "built": "2026-11-15 22:18 IST",
+ "spherex_versions": [
+  "7.0.5"
+ ],
+ "n_images_total": 226,
+ "n_images_used": 168,
+ "n_failed": 0,
+ "passes": [
+  {
+   "index": 0,
+   "mjd": 60927.8407595,
+   "date": "2025-09-09",
+   "start": "2025-09-01",
+   "end": "2025-09-20",
+   "n_images": 84,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.0,
+    28.999999999997947
+   ],
+   "saturated_fraction_at_target": 0.85,
+   "frames": {
+    "ALL": "p0_ALL.png",
+    "D1": "p0_D1.png",
+    "D2": "p0_D2.png",
+    "D3": "p0_D3.png",
+    "D4": "p0_D4.png",
+    "D5": "p0_D5.png",
+    "D6": "p0_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p0_D1_diff.png",
+    "D2": "p0_D2_diff.png",
+    "D3": "p0_D3_diff.png",
+    "D4": "p0_D4_diff.png",
+    "D5": "p0_D5_diff.png",
+    "D6": "p0_D6_diff.png",
+    "ALL": "p0_ALL_diff.png"
+   }
+  },
+  {
+   "index": 1,
+   "mjd": 61103.331099,
+   "date": "2026-03-04",
+   "start": "2026-02-20",
+   "end": "2026-03-12",
+   "n_images": 84,
+   "detectors": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "predicted_px": [
+    29.0,
+    28.999999999997947
+   ],
+   "saturated_fraction_at_target": 0.96,
+   "frames": {
+    "ALL": "p1_ALL.png",
+    "D1": "p1_D1.png",
+    "D2": "p1_D2.png",
+    "D3": "p1_D3.png",
+    "D4": "p1_D4.png",
+    "D5": "p1_D5.png",
+    "D6": "p1_D6.png"
+   },
+   "diff_frames": {
+    "D1": "p1_D1_diff.png",
+    "D2": "p1_D2_diff.png",
+    "D3": "p1_D3_diff.png",
+    "D4": "p1_D4_diff.png",
+    "D5": "p1_D5_diff.png",
+    "D6": "p1_D6_diff.png",
+    "ALL": "p1_ALL_diff.png"
+   }
+  }
+ ],
+ "diff_base": "2025-09-09",
+ "variability": {
+  "from": "2025-09-09",
+  "to": "2026-03-04",
+  "per_detector": {
+   "D1": {
+    "target_ratio": 1.024,
+    "field_ratio_median": 0.974,
+    "field_ratio_scatter": 0.021
+   },
+   "D2": {
+    "target_ratio": 1.366,
+    "field_ratio_median": 1.003,
+    "field_ratio_scatter": 0.023
+   },
+   "D3": {
+    "target_ratio": 1.259,
+    "field_ratio_median": 1.012,
+    "field_ratio_scatter": 0.024
+   },
+   "D4": {
+    "target_ratio": 0.924,
+    "field_ratio_median": 1.001,
+    "field_ratio_scatter": 0.032
+   },
+   "D5": {
+    "target_ratio": 0.869,
+    "field_ratio_median": 0.954,
+    "field_ratio_scatter": 0.052
+   },
+   "D6": {
+    "target_ratio": 0.66,
+    "field_ratio_median": 0.948,
+    "field_ratio_scatter": 0.061
+   }
+  },
+  "median_change": 0.987,
+  "median_field_scatter": 0.028
+ },
+ "spectrum": {
+  "file": "spectrum.json",
+  "n_points": 166
+ }
+}

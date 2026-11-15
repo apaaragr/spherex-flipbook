@@ -16,5 +16,17 @@
   "kind": "moving",
   "ra": 331.0963197786571,
   "dec": -56.800793654654214
+ },
+ "rwaur": {
+  "label": "RW Aurigae",
+  "kind": "variable",
+  "ra": 76.9564,
+  "dec": 30.4014
+ },
+ "rdra": {
+  "label": "R Draconis",
+  "kind": "variable",
+  "ra": 248.16749999999996,
+  "dec": 66.755
  }
 }

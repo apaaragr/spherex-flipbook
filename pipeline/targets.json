@@ -57,7 +57,7 @@
   "parallax": 0,
   "ref": "approximate (variable star)",
   "blurb": "A young T Tauri star system still wrapped in a dusty disk. It brightens and dims unpredictably as clumps of dust pass in front of it.",
-  "look_for": "Look for the star's brightness changing between passes, not its position. The check card compares it with nearby steady stars."
+  "look_for": "Blink between passes. RW Aurigae is bright enough to overflow SPHEREx's detectors, so the tool flags its brightness change as unmeasurable instead of inventing a number."
  },
  "rdra": {
   "label": "R Draconis",
@@ -70,6 +70,6 @@
   "parallax": 0,
   "ref": "approximate (variable star)",
   "blurb": "A Mira-type pulsating red giant that swells and shrinks over a roughly 245-day cycle, changing brightness strongly in the infrared.",
-  "look_for": "Blink between passes and watch the star pulse. The check card compares it with nearby steady stars."
+  "look_for": "Blink between passes. R Draconis is one of the brightest infrared stars in the sky and overflows SPHEREx's detectors, so the tool flags its brightness change as unmeasurable instead of inventing a number."
  }
 }

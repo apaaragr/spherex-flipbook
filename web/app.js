@@ -170,7 +170,11 @@ function renderPanels() {
     el.innerHTML = `<p class="note">A custom field: no catalogue target here. Blink or Difference mode shows anything that moved or changed between passes.</p>`;
   } else if (m.kind !== "moving") {
     const v = m.variability;
-    if (!v) {
+    const sat = Math.max(0, ...m.passes.filter((p) => p.full).map((p) => p.saturated_fraction_at_target || 0));
+    if (v && sat > 0.5) {
+      el.innerHTML = `<p class="verdict warn">Too bright to measure: saturated in ${Math.round(sat * 100)}% of images</p>
+      <p class="note" style="margin-top:0">${m.label} is so bright in the infrared that its core overflows SPHEREx's detectors in most images, so brightness ratios between passes are not reliable (our non-variable control, Barnard's Star, shows similar false jumps for the same reason). Blink mode still shows the star, but the change can't be quantified from this data.</p>`;
+    } else if (!v) {
       el.innerHTML = `<p class="note">${m.label} is a <b>variable star</b>: it changes brightness, not position. Needs two full passes to measure the change.</p>`;
     } else {
       const ch = v.median_change, pct = Math.abs(ch - 1) * 100, noise = v.median_field_scatter * 100;
