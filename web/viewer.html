@@ -51,7 +51,7 @@
       <label for="band">Detector (wavelength)</label>
       <select id="band"></select>
     </section>
-    <section>
+    <section class="focusonly">
       <span class="label">Mode</span>
       <div class="seg" role="radiogroup" aria-label="Display mode">
         <button type="button" data-mode="flip" class="on">Flipbook</button>
@@ -63,8 +63,8 @@
     <section class="sliders">
       <label for="speed">Blink interval <output id="speedOut"></output></label>
       <input id="speed" type="range" min="150" max="2000" step="50" value="700">
-      <label for="zoom">Zoom <output id="zoomOut"></output></label>
-      <input id="zoom" type="range" min="3" max="16" step="1" value="9">
+      <label for="zoom" class="focusonly">Zoom <output id="zoomOut"></output></label>
+      <input id="zoom" class="focusonly" type="range" min="3" max="16" step="1" value="9">
     </section>
     <section class="checks">
       <label><input type="checkbox" id="invert" checked> Invert (dark stars on light)</label>
@@ -76,24 +76,36 @@
 
   <section class="stage" aria-label="Image viewer">
     <p class="guide" id="guide"></p>
-    <div class="canvasWrap" id="canvasWrap">
+    <div class="viewtabs" role="tablist" aria-label="View">
+      <button type="button" data-view="compare" class="on">Compare all views</button>
+      <button type="button" data-view="focus">Focus on one</button>
+    </div>
+    <section class="compare" id="compare" aria-label="Flipbook, blink and difference views side by side">
+      <div class="cpanels" id="cpanels"></div>
+      <div class="ctime">
+        <button type="button" id="cplay" aria-label="Pause">❚❚</button>
+        <div class="ctrack" id="ctrack"></div>
+      </div>
+      <p class="cnote" id="cnote"></p>
+    </section>
+    <div class="canvasWrap focusonly" id="canvasWrap">
       <canvas id="sky" width="531" height="531" aria-label="SPHEREx image of the selected sky patch"></canvas>
       <div class="compass" aria-hidden="true"><span class="n">N</span><span class="e">E</span></div>
       <div class="scalebar" id="scalebar"><span></span><em>1′</em></div>
     </div>
-    <div class="olegend" id="olegend">
+    <div class="olegend focusonly" id="olegend">
       <span><i class="cross"></i>catalogue-predicted position now</span>
       <span><i class="track"></i>predicted path across passes</span>
       <span><i class="nodata"></i>not observed in this pass</span>
     </div>
-    <div class="transport">
+    <div class="transport focusonly">
       <button type="button" id="prev" aria-label="Previous frame">◀</button>
       <button type="button" id="play" aria-label="Pause">❚❚</button>
       <button type="button" id="next" aria-label="Next frame">▶</button>
       <div class="legend" id="legend" aria-label="Epoch legend"></div>
     </div>
-    <p class="caption" id="caption"></p>
-    <p class="clickinfo" id="clickinfo">Click the image to read off coordinates.</p>
+    <p class="caption focusonly" id="caption"></p>
+    <p class="clickinfo focusonly" id="clickinfo">Click the image to read off coordinates.</p>
   </section>
 
   <aside class="panel side findings" aria-label="Findings">

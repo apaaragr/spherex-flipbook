@@ -12,7 +12,7 @@ const MODE_HINTS = {
   diff: "Each pass minus the first full pass. Red = brighter/new, blue = fainter/gone. A mover shows as a red–blue pair.",
 };
 const $ = (id) => document.getElementById(id);
-const S = { index: {}, dist: {}, key: null, m: null, spec: [], band: "ALL", mode: "flip", frame: 0, playing: true,
+const S = { view: "compare", ct: 0, ctimer: null, cplaying: true, cpanels: [], index: {}, dist: {}, key: null, m: null, spec: [], band: "ALL", mode: "flip", frame: 0, playing: true,
   speed: 700, zoom: 9, invert: true, overlay: true, fullOnly: true, timer: null, imgs: {} };
 
 // ---------- URL state ----------
@@ -25,12 +25,14 @@ function readURL() {
   if (q.has("invert")) S.invert = q.get("invert") !== "0";
   if (q.has("overlay")) S.overlay = q.get("overlay") !== "0";
   if (q.has("full")) S.fullOnly = q.get("full") !== "0";
+  if (q.get("view") === "focus") S.view = "focus";
   return q;
 }
 function writeURL() {
   const q = new URLSearchParams({ target: S.key || "", band: S.band, mode: S.mode, zoom: S.zoom, speed: S.speed,
     invert: +S.invert, overlay: +S.overlay, full: +S.fullOnly });
   if (document.body.classList.contains("embed")) q.set("embed", "1");
+  q.set("view", S.view);
   history.replaceState(null, "", "?" + q.toString());
 }
 
@@ -90,7 +92,7 @@ async function loadTarget(key) {
   $("target").value = key;
   // preload every frame for smooth blinking
   S.m.passes.forEach((p) => [...Object.values(p.frames), ...Object.values(p.diff_frames || {})].forEach((f) => img(base + f)));
-  renderPanels(); restart(); writeURL();
+  renderPanels(); setView(S.view);
 }
 function shownPasses() {
   const ps = S.m.passes.filter((p) => (!S.fullOnly || p.full) && p.frames[S.band]);
@@ -101,6 +103,7 @@ function shownPasses() {
 // ---------- drawing ----------
 async function draw() {
   if (!S.m) return;
+  if (S.view === "compare") return drawCompare();
   const ps = shownPasses();
   if (!ps.length) { $("caption").textContent = "No passes with this detector — try “All detectors” or untick “Full-sky passes only”."; return; }
   S.frame %= ps.length;
@@ -149,10 +152,74 @@ function drawOverlay(ctx, ps, cur, n, z) {
 // ---------- playback ----------
 function restart() {
   clearInterval(S.timer);
+  if (S.view === "compare") return restartCompare();
   draw();
   if (S.playing) S.timer = setInterval(() => { S.frame++; draw(); }, S.speed);
   $("play").textContent = S.playing ? "❚❚" : "▶︎";
   $("play").setAttribute("aria-label", S.playing ? "Pause" : "Play");
+}
+
+// ---------- compare view: three modes side by side on one clock ----------
+const CROP = 12, CSCALE = 12;   // panels show the 25x25 SPHEREx pixels (2.6') around the target
+const PANEL_INFO = {
+  flip: ["Flipbook", "Every pass in order, like a flip-book. A moving star hops; a variable star pulses."],
+  blink: ["Blink", "Only the first and last pass, back and forth: the biggest change, isolated."],
+  diff: ["Difference", "Each pass minus the first. Red = new or brighter, blue = gone or fainter. A moving star leaves a red–blue pair."],
+};
+function comparePasses() { return S.m.passes.filter((p) => (!S.fullOnly || p.full) && p.frames[S.band]); }
+function buildCompare() {
+  const ps = comparePasses(), modes = ps.length > 2 ? ["flip", "blink", "diff"] : ["flip", "diff"];
+  $("cpanels").style.setProperty("--np", modes.length);
+  $("cpanels").innerHTML = modes.map((md) => `<div class="cpanel"><div class="ch"><span class="ct">${PANEL_INFO[md][0]}</span><span class="cd"></span></div>
+      <canvas width="${(2 * CROP + 1) * CSCALE}" height="${(2 * CROP + 1) * CSCALE}"></canvas><p>${PANEL_INFO[md][1]}</p>
+      <button type="button" class="focusbtn" data-mode="${md}">Focus on this view →</button></div>`).join("");
+  S.cpanels = modes.map((md, i) => ({ md, cv: $("cpanels").children[i].querySelector("canvas"), cd: $("cpanels").children[i].querySelector(".cd") }));
+  $("ctrack").innerHTML = ps.map((p, i) => `<button type="button" data-i="${i}" title="${p.start} → ${p.end}">${p.date.slice(0, 7)}</button>`).join("");
+  const span = (2 * CROP + 1) * S.m.grid.pixel_arcsec / 60;
+  $("cnote").textContent = `Each panel shows the ${span.toFixed(1)}′ of sky around the target, zoomed in, all on one clock.` +
+    (ps.length <= 2 ? " Only two passes so far, so Blink would be identical to Flipbook and is left out." : "") +
+    (ps.length < 2 ? " Needs at least two passes to compare." : "");
+}
+async function drawCompare() {
+  if (!S.m || !S.cpanels.length) return;
+  const ps = comparePasses(); if (!ps.length) return;
+  const n = ps.length, i = S.ct % n, base = ps[0], g = S.m.grid.n, c0 = (g - 1) / 2 - CROP;
+  for (const P of S.cpanels) {
+    const pass = P.md === "blink" ? (S.ct % 2 ? ps[n - 1] : ps[0]) : ps[i];
+    const file = P.md === "diff" ? (pass.diff_frames || {})[S.band] : pass.frames[S.band];
+    const im = file ? await img(`data/${S.key}/${file}`) : null;
+    const ctx = P.cv.getContext("2d"), W = P.cv.width;
+    ctx.save(); ctx.imageSmoothingEnabled = false; ctx.clearRect(0, 0, W, W);
+    ctx.filter = S.invert && P.md !== "diff" ? "invert(1)" : "none";
+    if (im) ctx.drawImage(im, c0, c0, 2 * CROP + 1, 2 * CROP + 1, 0, 0, W, W);
+    ctx.restore();
+    if (S.overlay && S.m.kind === "moving") {
+      const marks = P.md === "diff" ? [[base, "#22d3ee"], [pass, getComputedStyle(document.documentElement).getPropertyValue("--pred").trim()]] : [[pass, getComputedStyle(document.documentElement).getPropertyValue("--pred").trim()]];
+      for (const [q, colr] of marks) {
+        const x = (q.predicted_px[0] - c0 + 0.5) * CSCALE, y = (g - 1 - q.predicted_px[1] - c0 + 0.5) * CSCALE, gp = CSCALE * 1.4, L = CSCALE * 3;
+        ctx.strokeStyle = colr; ctx.lineWidth = 2; ctx.beginPath();
+        ctx.moveTo(x - L, y); ctx.lineTo(x - gp, y); ctx.moveTo(x + gp, y); ctx.lineTo(x + L, y);
+        ctx.moveTo(x, y - L); ctx.lineTo(x, y - gp); ctx.moveTo(x, y + gp); ctx.lineTo(x, y + L); ctx.stroke();
+      }
+    }
+    P.cd.textContent = P.md === "diff" ? (pass === base ? `${base.date.slice(0, 7)} (reference)` : `${pass.date.slice(0, 7)} − ${base.date.slice(0, 7)}`) : pass.date.slice(0, 7);
+  }
+  [...$("ctrack").children].forEach((b, k) => b.classList.toggle("cur", k === i));
+}
+function restartCompare() {
+  clearInterval(S.ctimer);
+  if (!S.m) return;
+  buildCompare(); drawCompare();
+  if (S.cplaying) S.ctimer = setInterval(() => { S.ct++; drawCompare(); }, S.speed);
+  $("cplay").textContent = S.cplaying ? "❚❚" : "▶︎";
+  $("cplay").setAttribute("aria-label", S.cplaying ? "Pause" : "Play");
+}
+function setView(v) {
+  S.view = v;
+  document.body.classList.toggle("v-compare", v === "compare"); document.body.classList.toggle("v-focus", v === "focus");
+  document.querySelectorAll(".viewtabs button").forEach((b) => b.classList.toggle("on", b.dataset.view === v));
+  clearInterval(S.timer); clearInterval(S.ctimer);
+  restart(); writeURL();
 }
 
 // ---------- side panels ----------
@@ -266,6 +333,10 @@ function showTab(id) {
   document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === id));
 }
 function bind() {
+  document.querySelectorAll(".viewtabs button").forEach((b) => (b.onclick = () => setView(b.dataset.view)));
+  $("cplay").onclick = () => { S.cplaying = !S.cplaying; restartCompare(); };
+  $("ctrack").onclick = (e) => { const i = e.target.dataset.i; if (i != null) { S.cplaying = false; S.ct = +i; restartCompare(); } };
+  $("cpanels").onclick = (e) => { const md = e.target.dataset && e.target.dataset.mode; if (md) { S.mode = md; document.querySelectorAll(".seg button").forEach((b) => b.classList.toggle("on", b.dataset.mode === md)); $("modeHint").textContent = MODE_HINTS[md]; setView("focus"); } };
   document.querySelectorAll(".tabs button").forEach((b) => (b.onclick = () => showTab(b.dataset.tab)));
   document.querySelector(".findings").addEventListener("click", (e) => { const g = e.target.dataset && e.target.dataset.goto; if (g) showTab(g); });
   $("target").onchange = (e) => loadTarget(e.target.value);
