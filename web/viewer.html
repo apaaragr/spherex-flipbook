@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPHEREx Flipbook</title>
+<meta name="description" content="Flip through NASA SPHEREx all-sky images of any patch of sky over time to spot stars, brown dwarfs and asteroids that move or change.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html" style="text-decoration:none;color:inherit">
+    <span class="logo" aria-hidden="true"></span>
+    <div>
+      <h1>SPHEREx Flipbook</h1>
+      <p class="tag">Watch the infrared sky change, six months at a time.</p>
+    </div>
+  </a>
+  <nav class="toplinks">
+    <a href="index.html">Home</a>
+    <a href="#how">How it works</a>
+    <a href="https://github.com/apaaragr/spherex-flipbook" id="repoLink" target="_blank" rel="noopener">Source</a>
+  </nav>
+</header>
+
+<main class="layout">
+  <aside class="panel controls" aria-label="Controls">
+    <section>
+      <label for="target">Showcase target</label>
+      <select id="target"></select>
+    </section>
+    <section>
+      <label for="coord">…or go to coordinates</label>
+      <div class="row">
+        <input id="coord" type="text" placeholder="17:57:48.5 +04:41:36  or  269.446 4.768" autocomplete="off" spellcheck="false">
+        <button id="go" type="button">Go</button>
+      </div>
+      <p class="hint" id="coordMsg">Right Ascension and declination, decimal degrees or h:m:s d:m:s.</p>
+    </section>
+    <section>
+      <label for="band">Detector (wavelength)</label>
+      <select id="band"></select>
+    </section>
+    <section>
+      <span class="label">Mode</span>
+      <div class="seg" role="radiogroup" aria-label="Display mode">
+        <button type="button" data-mode="flip" class="on">Flipbook</button>
+        <button type="button" data-mode="blink">Blink first/last</button>
+        <button type="button" data-mode="diff">Difference</button>
+      </div>
+      <p class="hint" id="modeHint"></p>
+    </section>
+    <section class="sliders">
+      <label for="speed">Blink interval <output id="speedOut"></output></label>
+      <input id="speed" type="range" min="150" max="2000" step="50" value="700">
+      <label for="zoom">Zoom <output id="zoomOut"></output></label>
+      <input id="zoom" type="range" min="3" max="16" step="1" value="9">
+    </section>
+    <section class="checks">
+      <label><input type="checkbox" id="invert" checked> Invert (dark stars on light)</label>
+      <label><input type="checkbox" id="overlay" checked> Predicted position + motion track</label>
+      <label><input type="checkbox" id="fullOnly" checked> Hide partial passes</label>
+    </section>
+    <p class="keys"><kbd>Space</kbd> play/pause · <kbd>←</kbd> <kbd>→</kbd> step</p>
+  </aside>
+
+  <section class="stage" aria-label="Image viewer">
+    <p class="guide" id="guide"></p>
+    <div class="canvasWrap" id="canvasWrap">
+      <canvas id="sky" width="531" height="531" aria-label="SPHEREx image of the selected sky patch"></canvas>
+      <div class="compass" aria-hidden="true"><span class="n">N</span><span class="e">E</span></div>
+      <div class="scalebar" id="scalebar"><span></span><em>1′</em></div>
+    </div>
+    <div class="olegend" id="olegend">
+      <span><i class="cross"></i>catalogue-predicted position now</span>
+      <span><i class="track"></i>predicted path across passes</span>
+      <span><i class="nodata"></i>not observed in this pass</span>
+    </div>
+    <div class="transport">
+      <button type="button" id="prev" aria-label="Previous frame">◀</button>
+      <button type="button" id="play" aria-label="Pause">❚❚</button>
+      <button type="button" id="next" aria-label="Next frame">▶</button>
+      <div class="legend" id="legend" aria-label="Epoch legend"></div>
+    </div>
+    <p class="caption" id="caption"></p>
+    <p class="clickinfo" id="clickinfo">Click the image to read off coordinates.</p>
+  </section>
+
+  <aside class="panel side findings" aria-label="Findings">
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="object" class="on">Object</button>
+      <button type="button" role="tab" data-tab="checkCard" id="tabCheck">Motion</button>
+      <button type="button" role="tab" data-tab="specCard">Spectrum</button>
+      <button type="button" role="tab" data-tab="dataCard">Data</button>
+    </div>
+    <section class="card object tabpane" id="object">
+      <h2>About this object</h2>
+      <p class="name" id="objName"></p>
+      <p id="objBlurb"></p>
+      <div id="objResult" class="objresult"></div>
+    </section>
+    <section class="card tabpane" id="checkCard" hidden>
+      <h2 id="checkTitle">Does it really move?</h2>
+      <div id="check"></div>
+    </section>
+    <section class="card tabpane" id="specCard" hidden>
+      <h2>Spectrum at the target</h2>
+      <div id="spectrum" class="chart"></div>
+      <label class="small"><input type="checkbox" id="specFlagged"> include saturated / flagged points</label>
+    </section>
+    <section class="card tabpane" id="dataCard" hidden>
+      <h2>About this data</h2>
+      <dl id="about"></dl>
+      <div class="links" id="links"></div>
+    </section>
+  </aside>
+</main>
+
+<section class="how" id="how">
+  <h2>How it works</h2>
+  <ol>
+    <li><b>Find every image.</b> NASA's SPHEREx telescope maps the whole sky every six months in 102 infrared colours. We list every SPHEREx image that covers the chosen point (NASA/IPAC Infrared Science Archive).</li>
+    <li><b>Cut out and clean.</b> We download small cutouts, subtract the zodiacal-light glow from solar-system dust, and blank out pixels the mission flags as bad (cosmic rays, dead or hot pixels, persistence). Saturated star cores are kept for display and marked.</li>
+    <li><b>Align.</b> SPHEREx looks at the sky at a different rotation each time, so every cutout is re-projected onto one north-up grid with SPHEREx's native 6.15″ pixels.</li>
+    <li><b>Stack each pass.</b> The median of all images from one six-month pass gives one clean frame per detector; the "All" frame combines the six detectors for extra depth.</li>
+    <li><b>Check against a catalogue.</b> We compare the star's measured shift with the motion predicted by Gaia/CatWISE, and use nearby non-moving stars as a noise floor, so you can see the motion is real.</li>
+  </ol>
+</section>
+
+<footer class="foot">
+  <div class="inner">
+    <p>This publication makes use of data products from the Spectro-Photometer for the History of the Universe, Epoch of Reionization and Ices Explorer (SPHEREx), a joint project of the Jet Propulsion Laboratory and the California Institute of Technology, funded by NASA. Data served by the NASA/IPAC Infrared Science Archive (IRSA). Reference positions and motions from ESA Gaia DR3 and CatWISE2020. Design inspired by WiseView.</p>
+    <p><b>Use of AI:</b> code, analysis and text for this project were developed with help from Claude (Anthropic), an AI assistant. All images are real SPHEREx data; all results were checked against independent catalogues.</p>
+    <p>Built for the NASA Space Apps Challenge 2026, “Planet X and SPHEREx” · Open source (Apache-2.0) · <a href="https://github.com/apaaragr/spherex-flipbook" target="_blank" rel="noopener">Source code</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

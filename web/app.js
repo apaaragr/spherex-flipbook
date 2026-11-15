@@ -165,6 +165,7 @@ function renderPanels() {
   $("objBlurb").textContent = m.blurb || "";
   $("guide").innerHTML = `<b>What to look for:</b> ${m.look_for || "anything that hops or changes brightness between passes."}`;
   $("checkTitle").textContent = m.kind === "moving" ? "Does it really move?" : "Does it really change?";
+  $("tabCheck").textContent = m.kind === "moving" ? "Motion" : "Brightness";
   if (m.kind === "field") {
     el.innerHTML = `<p class="note">A custom field: no catalogue target here. Blink or Difference mode shows anything that moved or changed between passes.</p>`;
   } else if (m.kind !== "moving") {
@@ -197,6 +198,8 @@ function renderPanels() {
       </div>
       <p class="note">Prediction from ${m.reference}. Nearby stars that shouldn't move set the noise floor.</p>`;
   }
+  const vd = el.querySelector(".verdict");
+  $("objResult").innerHTML = vd ? `<p class="verdict ${vd.className.includes("good") ? "good" : "warn"}">${vd.textContent}</p><button type="button" class="linkbtn" data-goto="checkCard">See the evidence →</button>` : "";
   renderSpectrum();
   const g = m.grid;
   $("about").innerHTML = `
@@ -242,7 +245,13 @@ function renderSpectrum() {
 }
 
 // ---------- events ----------
+function showTab(id) {
+  document.querySelectorAll(".tabpane").forEach((p) => (p.hidden = p.id !== id));
+  document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("on", b.dataset.tab === id));
+}
 function bind() {
+  document.querySelectorAll(".tabs button").forEach((b) => (b.onclick = () => showTab(b.dataset.tab)));
+  document.querySelector(".findings").addEventListener("click", (e) => { const g = e.target.dataset && e.target.dataset.goto; if (g) showTab(g); });
   $("target").onchange = (e) => loadTarget(e.target.value);
   $("band").onchange = (e) => { S.band = e.target.value; S.frame = 0; restart(); writeURL(); };
   document.querySelectorAll(".seg button").forEach((b) => (b.onclick = () => setMode(b.dataset.mode)));

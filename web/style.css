@@ -110,16 +110,22 @@ dd { margin: 0; font-variant-numeric: tabular-nums; word-break: break-word; }
 .foot .inner { max-width: 920px; margin: 0 auto; font-size: 12px; color: var(--muted); }
 .foot p { margin: 0 0 8px; }
 
+/* Findings tabs */
+.tabs { display: flex; gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px; margin-bottom: 12px; }
+.tabs button { flex: 1; border: 0; background: transparent; color: var(--muted); padding: 7px 4px; font-size: 13px; border-radius: 9px; }
+.tabs button.on { background: linear-gradient(135deg, rgba(34,211,238,.18), rgba(59,130,246,.18)); color: var(--text); box-shadow: inset 0 0 0 1px rgba(34,211,238,.35); }
+.objresult { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--hairline); }
+.objresult .verdict { margin-bottom: 6px; }
+.linkbtn { border: 0; background: none; color: var(--cyan); padding: 0; font-size: 13px; }
+
 @media (max-width: 1180px) {
   .layout { grid-template-columns: 260px minmax(0, 1fr); }
-  .side { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--gap); }
-  .side .card { margin: 0; }
+  .side { grid-column: 1 / -1; }
 }
 @media (max-width: 760px) {
   .top { padding: 12px 16px; position: static; }
   .toplinks { display: none; }
   .layout { grid-template-columns: minmax(0, 1fr); padding: 12px 16px; }
-  .side { grid-template-columns: minmax(0, 1fr); }
   .stage { order: -1; }
   .canvasWrap { padding: 6px; }
   .how, .foot { padding-left: 16px; padding-right: 16px; }
