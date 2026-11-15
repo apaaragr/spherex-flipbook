@@ -43,7 +43,7 @@ ul { margin: 0; padding-left: 22px; font-size: 21px; line-height: 1.5; color: #d
   <p class="sub">Watch the infrared sky change, six months at a time, and catch the stars, brown dwarfs and asteroids that move.</p>
   <div class="stats" style="max-width:1000px">
     <div class="card"><div class="stat grad">5</div><div class="statlbl">challenge test targets built</div></div>
-    <div class="card"><div class="stat grad">1,400+</div><div class="statlbl">SPHEREx images cleaned, aligned &amp; stacked</div></div>
+    <div class="card"><div class="stat grad">1,142</div><div class="statlbl">SPHEREx images cleaned, aligned &amp; stacked</div></div>
     <div class="card"><div class="stat grad">0.13 px</div><div class="statlbl">match to Gaia on Barnard's Star</div></div>
   </div>
   <div class="foot"><span>Team Orbital_Nexus</span><span>apaaragr.github.io/spherex-flipbook</span></div>
@@ -97,7 +97,7 @@ ul { margin: 0; padding-left: 22px; font-size: 21px; line-height: 1.5; color: #d
 <section class="slide">
   <div class="kicker">Proof it works</div>
   <h2>Barnard's Star, caught moving in one year</h2>
-  <div class="cols" style="grid-template-columns: 1fr 1.1fr;">
+  <div class="cols" style="grid-template-columns: 1.45fr 1fr; gap: 32px;">
     <img class="shot" src="shot_diff.png" alt="Difference image of Barnard's Star">
     <div>
       <div class="stats" style="grid-template-columns: 1fr 1fr; margin-top:0">
@@ -115,7 +115,8 @@ ul { margin: 0; padding-left: 22px; font-size: 21px; line-height: 1.5; color: #d
 <section class="slide">
   <div class="kicker">All five challenge targets</div>
   <h2>Movers and variables, one tool</h2>
-  <div class="tgrid" id="tgrid">TILES</div>
+  <div class="tgrid" id="tgrid"><div class="tile"><img src="tile_barnard.png" alt="Barnard's Star"><div class="t">Barnard's Star</div><div class="r ok">✓ Moved 10.2″ in a year; Gaia predicts 10.2″ (123× noise)</div></div><div class="tile"><img src="tile_epsindb.png" alt="Epsilon Indi B"><div class="t">Epsilon Indi B</div><div class="r ok">✓ Moved 4.3″, under one pixel; catalogue 4.6″ (40× noise)</div></div><div class="tile"><img src="tile_wise0855.png" alt="WISE 0855−0714"><div class="t">WISE 0855−0714</div><div class="r warn">~ Tentative: 5.9″ vs 8.0″; the coldest brown dwarf is barely visible even at 5 µm</div></div><div class="tile"><img src="tile_rwaur.png" alt="RW Aurigae"><div class="t">RW Aurigae</div><div class="r warn">! Saturated in 85–96% of images: brightness change flagged as unmeasurable</div></div><div class="tile"><img src="tile_rdra.png" alt="R Draconis"><div class="t">R Draconis</div><div class="r warn">! Saturated in 100% of images: brightness change flagged as unmeasurable</div></div></div>
+  <p style="color:#cfd3e6; font-size:17px; margin-top:22px; max-width:1100px">The tool says when the data can't support a conclusion. Both variable stars overflow SPHEREx's detectors; Barnard's Star, which is <i>not</i> variable, shows the same false brightness jumps, which confirms the cause.</p>
   <div class="foot"><span>Team Orbital_Nexus</span><span>6 / 7</span></div>
 </section>
 
@@ -127,10 +128,10 @@ ul { margin: 0; padding-left: 22px; font-size: 21px; line-height: 1.5; color: #d
       <li><b>Shift-and-add</b>: stack along a guessed motion to reveal faint movers (as WiseView does for WISE).</li>
       <li><b>Live coordinates</b>: build any patch on demand, then cache it for everyone.</li>
       <li><b>New data releases</b> drop in with one command as SPHEREx keeps mapping.</li>
-      <li>Overlay Gaia/WISE catalogues for every star, not just the target.</li>
+      <li>Overlay Gaia/WISE catalogues for every star, and a <b>3D sky globe</b> to explore targets in context.</li>
     </ul>
     <div class="card">
-      <p style="margin:0 0 10px; font-size:18px"><b>Honest note:</b> on 15 Nov the archive's main search service was down for most of the day; we recovered through its backup image search and rebuilt every target.</p>
+      <p style="margin:0 0 10px; font-size:18px"><b>Honest note:</b> on 15 Nov the archive's main search service was down for most of the day. We switched to its backup image search (SIA, Data Release 1) and still built all five targets.</p>
       <p style="margin:18px 0 6px; color:var(--muted)">Try it</p>
       <p class="big" style="font-size:26px">apaaragr.github.io/spherex-flipbook</p>
       <p style="margin:12px 0 0; color:var(--muted); font-size:14px">Code: github.com/apaaragr/spherex-flipbook · Data: NASA SPHEREx via IRSA, ESA Gaia DR3, CatWISE2020 · Built with help from Claude (Anthropic)</p>
