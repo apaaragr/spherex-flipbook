@@ -1,39 +1,52 @@
-.galaxy-page { overflow: hidden; }
-.gstage { position: relative; height: calc(100vh - 70px); min-height: 520px; }
-.scene { position: absolute; inset: 0; }
-.scene canvas { display: block; width: 100%; height: 100%; }
-.kicker { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); font-weight: 600; margin: 0 0 8px; }
-.hud { position: absolute; left: 24px; top: 24px; width: min(380px, calc(100% - 48px)); padding: 18px 20px; border-radius: 14px;
-  background: rgba(5, 5, 16, 0.72); border: 1px solid var(--hairline); backdrop-filter: blur(8px); }
-.hud h2 { font-family: "Space Grotesk", sans-serif; font-size: 26px; text-transform: none; letter-spacing: -.01em; color: var(--text); margin: 0 0 8px; }
-.hud p { margin: 0 0 12px; font-size: 14px; color: #cfd3e6; }
-.hud .fine { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
-.hudbtns { display: flex; gap: 8px; }
-.hudbtns button { flex: 1; padding: 9px 10px; }
-.hudbtns button.on { background: linear-gradient(135deg, var(--cyan), var(--blue)); color: var(--accent-ink); border-color: transparent; font-weight: 600; }
-.hint { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); font-size: 12px; color: var(--muted); background: rgba(5, 5, 16, .6); padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
-.slabel { position: absolute; left: 0; top: 0; font-family: "Space Grotesk", sans-serif; font-size: 13px; color: var(--text); text-decoration: none; white-space: nowrap;
-  background: rgba(5, 5, 16, 0.8); border: 1px solid rgba(34, 211, 238, .45); padding: 3px 9px; border-radius: 8px; transition: opacity .25s; will-change: transform; }
+/* Scroll-driven galaxy story. The 3D scene is fixed behind; scrolling the chapters moves the camera. */
+.galaxy-page { background: #020208; }
+.scene { position: fixed; inset: 0; z-index: 0; }
+.scene canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+.scene canvas:active { cursor: grabbing; }
+.gtop { position: fixed; left: 0; right: 0; top: 0; z-index: 5; background: linear-gradient(rgba(2, 2, 8, .85), rgba(2, 2, 8, 0)); border-bottom: 0; backdrop-filter: none; }
+.toplinks .skip { color: var(--cyan); }
+.kicker { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); font-weight: 600; margin: 0 0 10px; }
+
+/* chapters: tall, see-through; only the caption cards take clicks so dragging the 3D scene still works */
+.story { position: relative; z-index: 2; pointer-events: none; }
+.chapter { min-height: 100vh; display: flex; align-items: center; padding: 100px 32px 60px; position: relative; }
+.chapter[data-ch="2"] { min-height: 115vh; align-items: flex-start; padding-top: 110px; }
+.caption { pointer-events: auto; width: min(400px, 100%); padding: 22px 24px; border-radius: 16px; background: rgba(5, 5, 16, 0.72);
+  border: 1px solid var(--hairline); backdrop-filter: blur(8px); opacity: .25; transform: translateY(14px); transition: opacity .5s, transform .5s; }
+.chapter.active .caption { opacity: 1; transform: none; }
+.caption h2 { font-family: "Space Grotesk", sans-serif; font-size: 32px; line-height: 1.1; text-transform: none; letter-spacing: -.01em; color: var(--text); margin: 0 0 12px; }
+.caption p { margin: 0 0 12px; font-size: 15px; color: #cfd3e6; }
+.caption .fine { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
+.scrollhint { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); margin: 0; font-size: 14px; color: var(--text);
+  padding: 8px 16px; border-radius: 999px; background: rgba(5, 5, 16, .65); border: 1px solid var(--hairline-2); animation: bob 1.8s ease-in-out infinite; transition: opacity .4s; }
+@keyframes bob { 50% { transform: translate(-50%, 6px); } }
+
+.starlist { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 6px; }
+.starlist a { display: flex; justify-content: space-between; gap: 10px; text-decoration: none; color: var(--text); padding: 8px 12px; border-radius: 10px;
+  border: 1px solid var(--hairline-2); background: var(--surface); font-size: 14px; }
+.starlist a:hover, .starlist a.sel { border-color: var(--cyan); background: rgba(34, 211, 238, .1); }
+.starlist small { color: var(--muted); }
+.starlist .variable { border-color: rgba(196, 181, 253, .35); }
+
+.dots { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 5; display: grid; gap: 12px; }
+.dots button { width: 11px; height: 11px; padding: 0; border-radius: 50%; border: 1px solid var(--hairline-2); background: rgba(255, 255, 255, .15); }
+.dots button.on { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 12px rgba(34, 211, 238, .6); }
+
+.slabel { position: fixed; left: 0; top: 0; z-index: 3; font-family: "Space Grotesk", sans-serif; font-size: 13px; color: var(--text); text-decoration: none; white-space: nowrap;
+  background: rgba(5, 5, 16, 0.8); border: 1px solid rgba(34, 211, 238, .45); padding: 4px 10px; border-radius: 8px; transition: opacity .3s; will-change: transform; }
 .slabel small { color: var(--muted); margin-left: 6px; font-family: Inter, sans-serif; }
 .slabel.variable { border-color: rgba(196, 181, 253, .55); }
-.slabel.sun { border-color: rgba(251, 191, 36, .6); }
-.slabel:hover { background: rgba(34, 211, 238, .18); }
-.ring { position: absolute; left: 0; top: 0; font-size: 11px; color: var(--muted); white-space: nowrap; pointer-events: none; transition: opacity .25s; }
-@media (max-width: 760px) {
-  .hud { left: 12px; right: 12px; top: 12px; width: auto; padding: 14px; }
-  .hud h2 { font-size: 21px; }
-  .hint { display: none; }
-}
+.slabel.sun { border-color: rgba(251, 191, 36, .6); pointer-events: none; z-index: 1; }
+.slabel:hover { background: rgba(34, 211, 238, .2); }
+.slabel.sel { background: linear-gradient(135deg, rgba(34, 211, 238, .4), rgba(59, 130, 246, .4)); box-shadow: 0 0 18px rgba(34, 211, 238, .5); }
+.ring { position: fixed; left: 0; top: 0; z-index: 1; font-size: 11px; color: var(--muted); white-space: nowrap; pointer-events: none; transition: opacity .3s; }
 
-.drawer { position: absolute; top: 12px; right: 12px; bottom: 12px; width: min(600px, calc(100% - 24px)); display: flex; flex-direction: column;
-  background: rgba(5, 5, 16, 0.92); border: 1px solid var(--hairline-2); border-radius: 14px; overflow: hidden; backdrop-filter: blur(10px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, .6); animation: slidein .35s ease-out; z-index: 4; }
-.drawer[hidden] { display: none; }
-@keyframes slidein { from { transform: translateX(30px); opacity: 0; } to { transform: none; opacity: 1; } }
-.drawer-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--hairline); }
-.drawer-bar span { flex: 1; font-family: "Space Grotesk", sans-serif; font-weight: 600; }
-.drawer-bar a { font-size: 13px; text-decoration: none; }
-.drawer-bar button { padding: 4px 10px; }
-.drawer iframe { flex: 1; width: 100%; border: 0; background: var(--bg); }
-.slabel.sel { background: linear-gradient(135deg, rgba(34,211,238,.35), rgba(59,130,246,.35)); }
-@media (max-width: 760px) { .drawer { top: auto; height: 70%; } }
+@media (max-width: 760px) {
+  .chapter { padding: 90px 14px 40px; align-items: flex-end; }
+  .chapter[data-ch="2"] { align-items: flex-end; }
+  .caption { width: 100%; padding: 16px; }
+  .caption h2 { font-size: 24px; }
+  .dots { right: 8px; }
+  .gtop .toplinks { display: flex; }
+  .gtop .toplinks a:first-child { display: none; }
+}

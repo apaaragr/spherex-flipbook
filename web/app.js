@@ -12,7 +12,7 @@ const MODE_HINTS = {
   diff: "Each pass minus the first full pass. Red = brighter/new, blue = fainter/gone. A mover shows as a red–blue pair.",
 };
 const $ = (id) => document.getElementById(id);
-const S = { index: {}, key: null, m: null, spec: [], band: "ALL", mode: "flip", frame: 0, playing: true,
+const S = { index: {}, dist: {}, key: null, m: null, spec: [], band: "ALL", mode: "flip", frame: 0, playing: true,
   speed: 700, zoom: 9, invert: true, overlay: true, fullOnly: true, timer: null, imgs: {} };
 
 // ---------- URL state ----------
@@ -205,6 +205,7 @@ function renderPanels() {
   }
   const vd = el.querySelector(".verdict");
   $("objResult").innerHTML = vd ? `<p class="verdict ${vd.className.includes("good") ? "good" : "warn"}">${vd.textContent}</p><button type="button" class="linkbtn" data-goto="checkCard">See the evidence →</button>` : "";
+  renderStarbar(vd);
   renderSpectrum();
   const g = m.grid;
   $("about").innerHTML = `
@@ -221,6 +222,16 @@ function renderPanels() {
     <a target="_blank" rel="noopener" href="https://www.legacysurvey.org/viewer?ra=${ra}&dec=${dec}&layer=unwise-neo7&zoom=13">unWISE (Legacy Survey)</a>
     <a target="_blank" rel="noopener" href="http://byw.tools/wiseview#ra=${ra}&dec=${dec}&size=${Math.round(g.fov_deg * 3600)}">WiseView</a>
     <a target="_blank" rel="noopener" href="https://simbad.cds.unistra.fr/simbad/sim-coo?Coord=${ra}+${dec}&Radius=2&Radius.unit=arcmin">SIMBAD</a>`;
+}
+function renderStarbar(vd) {
+  const d = S.dist[S.key];
+  $("starbar").hidden = false;
+  $("backLink").href = `galaxy.html?star=${S.key}`;
+  $("sbName").textContent = S.m.label;
+  const kind = S.m.kind === "moving" ? "nearby mover" : S.m.kind === "variable" ? "variable star" : "sky field";
+  $("sbMeta").textContent = d ? `${d.distance_ly < 100 ? d.distance_ly.toFixed(1) : Math.round(d.distance_ly).toLocaleString()} light-years away · ${kind}` : kind;
+  $("sbResult").className = "sb-result " + (vd && vd.className.includes("good") ? "good" : "warn");
+  $("sbResult").textContent = vd ? vd.textContent : "";
 }
 function renderAboutPass(p) {
   const v = $("satVal"); if (!v) return;
@@ -315,6 +326,7 @@ async function init() {
   $("invert").checked = S.invert; $("overlay").checked = S.overlay; $("fullOnly").checked = S.fullOnly;
   bind();
   S.index = await getJSON("data/index.json").catch(() => ({}));
+  S.dist = await getJSON("data/distances.json").catch(() => ({}));
   const keys = Object.keys(S.index);
   $("target").innerHTML = keys.map((k) => `<option value="${k}">${S.index[k].label}</option>`).join("") || `<option>No targets built yet</option>`;
   setMode(S.mode in MODE_HINTS ? S.mode : "flip");
