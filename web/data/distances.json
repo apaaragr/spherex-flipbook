@@ -1,0 +1,52 @@
+{
+ "barnard": {
+  "label": "Barnard's Star",
+  "kind": "moving",
+  "l": 31.0749,
+  "b": 14.1016,
+  "distance_ly": 6.0,
+  "parallax_mas": 546.976,
+  "source": "Gaia DR3 4472832130942575872",
+  "verified": true
+ },
+ "wise0855": {
+  "label": "WISE 0855\u22120714",
+  "kind": "moving",
+  "l": 234.9652,
+  "b": 23.3244,
+  "distance_ly": 7.4,
+  "parallax_mas": 439.0,
+  "source": "literature parallax (Kirkpatrick et al. 2021) - provisional",
+  "verified": false
+ },
+ "epsindb": {
+  "label": "Epsilon Indi B",
+  "kind": "moving",
+  "l": 336.0771,
+  "b": -48.1629,
+  "distance_ly": 11.9,
+  "parallax_mas": 274.8,
+  "source": "Gaia DR3 parallax of its host star Epsilon Indi A - provisional",
+  "verified": false
+ },
+ "rwaur": {
+  "label": "RW Aurigae",
+  "kind": "variable",
+  "l": 174.2042,
+  "b": -6.003,
+  "distance_ly": 534.7,
+  "parallax_mas": 6.1,
+  "source": "approximate Gaia parallax - provisional",
+  "verified": false
+ },
+ "rdra": {
+  "label": "R Draconis",
+  "kind": "variable",
+  "l": 98.5306,
+  "b": 38.2349,
+  "distance_ly": 2718.0,
+  "parallax_mas": 1.2,
+  "source": "approximate; parallaxes of bright pulsating giants are uncertain - provisional",
+  "verified": false
+ }
+}

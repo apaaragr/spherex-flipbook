@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Neighbourhood</title>
+<meta name="description" content="Fly from the whole Milky Way down to the Sun's neighbourhood and see where the SPHEREx Flipbook targets really are.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="galaxy.css">
+</head>
+<body class="galaxy-page">
+<header class="top">
+  <a class="brand" href="index.html" style="text-decoration:none;color:inherit">
+    <span class="logo" aria-hidden="true"></span>
+    <div><h1>SPHEREx Flipbook</h1><p class="tag">From the whole galaxy to our stellar neighbourhood.</p></div>
+  </a>
+  <nav class="toplinks"><a href="index.html">Home</a><a href="viewer.html">Viewer</a></nav>
+</header>
+
+<main class="gstage">
+  <div id="scene" class="scene" aria-label="3D view of the Milky Way and the Sun's neighbourhood"></div>
+  <div class="hud">
+    <p class="kicker" id="hudKicker">The Milky Way</p>
+    <h2 id="hudTitle">You are here</h2>
+    <p id="hudText"></p>
+    <div class="hudbtns">
+      <button type="button" id="btnGalaxy" class="on">Whole galaxy</button>
+      <button type="button" id="btnHome">Our neighbourhood</button>
+    </div>
+    <p class="fine" id="hudFine"></p>
+  </div>
+  <div class="hint">Drag to rotate · scroll or pinch to zoom · click a star's label to open it in the viewer</div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="galaxy.js"></script>
+</body>
+</html>
